@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_blue">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/paysage_landscape"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_gravity="top">
+
+        <TextView
+            android:id="@+id/weather_wind_speed"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/weather_humidity"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/weather_temperature"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</FrameLayout>
