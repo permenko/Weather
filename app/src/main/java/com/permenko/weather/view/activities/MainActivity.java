@@ -3,6 +3,7 @@ package com.permenko.weather.view.activities;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.permenko.weather.R;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 
     public void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fadein, R.anim.fadeout)
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
