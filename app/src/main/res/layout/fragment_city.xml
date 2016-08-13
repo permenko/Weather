@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/flat_landscape"
+        android:src="@drawable/city_background_portrait"
         android:scaleType="centerCrop"
         android:layout_marginBottom="72dp"/>
 
