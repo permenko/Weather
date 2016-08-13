@@ -105,7 +105,6 @@ public class CitiesFragment extends Fragment
         super.onStop();
         if (presenter != null) {
             presenter.onStop();
-            presenter = null;
         }
     }
 
