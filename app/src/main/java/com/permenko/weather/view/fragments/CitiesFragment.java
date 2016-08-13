@@ -54,7 +54,6 @@ public class CitiesFragment extends Fragment
 
     }
 
-    private static final String INITIAL_STATE = "INITIAL_STATE";
     private Unbinder unbinder;
     private View layout;
 
@@ -68,23 +67,8 @@ public class CitiesFragment extends Fragment
     View progressBar;
 
     private WeatherAdapter adapter;
-
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    public static CitiesFragment newInstance() {
-        //mark state after calling newInstance as initial
-        CitiesFragment fragment = new CitiesFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(INITIAL_STATE, true);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    private ArrayList<City> cities;
+    private boolean isInitial = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,11 +82,13 @@ public class CitiesFragment extends Fragment
         presenter = new WeatherPresenter(this, savedInstanceState);
         citiesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        if (savedInstanceState == null && getArguments().getBoolean(INITIAL_STATE, false)) {
-            //should update weather from server
+        if (isInitial) {
             getCities();
+            isInitial = false;
+        } else if (savedInstanceState == null && cities != null) {
+            updateAdapter(cities);
         }
-        getActivity();
+
         return layout;
     }
 
@@ -119,12 +105,13 @@ public class CitiesFragment extends Fragment
         super.onStop();
         if (presenter != null) {
             presenter.onStop();
+            presenter = null;
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (unbinder != null) {
             unbinder.unbind();
         }
@@ -202,6 +189,7 @@ public class CitiesFragment extends Fragment
 
     @Override
     public void updateAdapter(ArrayList<City> cities) {
+        this.cities = cities;
         adapter = new WeatherAdapter(cities, activityListener);
         citiesList.setAdapter(adapter);
         citiesList.invalidate();
@@ -209,6 +197,14 @@ public class CitiesFragment extends Fragment
 
     public void deleteCity(int position, City city) {
         presenter.deleteCity(position, city);
+    }
+
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }
