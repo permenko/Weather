@@ -13,6 +13,7 @@
     <string name="error_timeout">Timeout error</string>
     <string name="error_unknown">Unknown error</string>
     <string name="error_already_added">The city is already added</string>
+    <string name="error_json_syntax">No internet connection</string>
     <string name="error_city_not_found">The city is not found</string>
     <string name="error_city_not_found_title">The city is not found</string>
     <string name="error_city_not_found_text">The city is not found, you mean "%1$s"?</string>
