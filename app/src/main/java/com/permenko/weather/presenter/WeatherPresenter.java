@@ -18,15 +18,10 @@ import rx.schedulers.Schedulers;
 public class WeatherPresenter extends Presenter {
 
     private final String BUNDLE_CITIES = "BUNDLE_CITIES";
-    private final String BUNDLE_ERROR_ID = "BUNDLE_ERROR_ID";
-
-    //we can store only int not Integer, so we cannot check value to null
-    private final int DEFAULT_VALUE = -3158732; //some random default value for restore state
 
     private View view;
 
     private ArrayList<City> cities;
-    private Integer errorId;
 
     public interface View {
         void updateAdapter(City city);
@@ -44,15 +39,10 @@ public class WeatherPresenter extends Presenter {
 
         if (savedInstanceState != null) {
             cities = ((ArrayList<City>) savedInstanceState.getSerializable(BUNDLE_CITIES));
-            errorId = savedInstanceState.getInt(BUNDLE_ERROR_ID, DEFAULT_VALUE);
         }
 
         if (cities != null) {
             this.view.updateAdapter(cities);
-        }
-
-        if (errorId != null && errorId != DEFAULT_VALUE) {
-            this.view.showMessage(errorId);
         }
 
     }
@@ -73,6 +63,7 @@ public class WeatherPresenter extends Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        int errorId;
                         if (e instanceof UnknownHostException) {
                             errorId = R.string.error_no_internet_connection;
                         } else if (e instanceof TimeoutException) {
@@ -105,10 +96,7 @@ public class WeatherPresenter extends Presenter {
     public Subscription addCity(City city) {
         return getModel()
                 .addCity(city)
-                .doOnError(throwable -> {
-                    errorId = R.string.error_already_added;
-                    view.showMessage(errorId);
-                })
+                .doOnError(throwable -> view.showMessage(R.string.error_already_added))
                 .doOnNext(cities -> view.updateAdapter(city))
                 .subscribe();
     }
@@ -116,10 +104,7 @@ public class WeatherPresenter extends Presenter {
     public Subscription deleteCity(int position, City city) {
         return getModel()
                 .deleteCity(position, city)
-                .doOnError(throwable -> {
-                    errorId = R.string.error_unknown;
-                    view.showMessage(errorId);
-                })
+                .doOnError(throwable -> view.showMessage(R.string.error_unknown))
                 .doOnNext(o -> view.updateAdapter(position))
                 .subscribe();
     }
@@ -131,10 +116,7 @@ public class WeatherPresenter extends Presenter {
 
         Subscription subscription = getModel().getGroupWeather()
                 .doOnNext(cityList -> {
-
-                    //create new ArrayList from RealmList
-                    cities = new ArrayList<>(cityList);
-
+                    cities = cityList;
                     view.updateAdapter(cities);
                     view.hideProgress();
                 })
@@ -152,8 +134,5 @@ public class WeatherPresenter extends Presenter {
             outState.putSerializable(BUNDLE_CITIES, cities);
         }
 
-        if (errorId != null && errorId != DEFAULT_VALUE) {
-            outState.putInt(BUNDLE_ERROR_ID, errorId);
-        }
     }
 }
