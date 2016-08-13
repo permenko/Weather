@@ -24,7 +24,7 @@
 
     <string name="item_city_temperature">%1$s&#x00B0;</string>
     <string name="temperature">Temperature\n%1$s&#x00B0;</string>
-    <string name="humidity">Humidity\n%1$s\%</string>
+    <string name="humidity">Humidity\n%1$s%%</string>
     <string name="wind_speed">Wind Speed\n%1$s m/s</string>
 
     <!--fonts-->
