@@ -89,7 +89,7 @@ public class CitiesFragment extends Fragment
         if (isInitial) {
             getCities();
             isInitial = false;
-        } else if (savedInstanceState == null && cities != null) {
+        } else if (cities != null) {
             updateAdapter(cities);
         }
 
@@ -99,9 +99,9 @@ public class CitiesFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (presenter != null) {
+        /*if (presenter != null) {
             presenter.onSaveInstanceState(outState);
-        }
+        }*/
     }
 
     @Override
