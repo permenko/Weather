@@ -1,8 +1,5 @@
 package com.permenko.weather.data.realm;
 
-import com.permenko.weather.data.Main;
-import com.permenko.weather.data.Wind;
-
 import java.io.Serializable;
 
 import io.realm.RealmList;
@@ -12,8 +9,8 @@ import io.realm.annotations.PrimaryKey;
 public class RealmCity extends RealmObject implements Serializable {
     //private String updateTime;
     private RealmList<RealmWeather> weather;
-    private Main main;
-    private Wind wind;
+    private RealmMain main;
+    private RealmWind wind;
     @PrimaryKey
     private Integer id;
     private String name;
@@ -39,19 +36,19 @@ public class RealmCity extends RealmObject implements Serializable {
         this.weather = weather;
     }
 
-    public Main getMain() {
+    public RealmMain getMain() {
         return main;
     }
 
-    public void setMain(Main main) {
+    public void setMain(RealmMain main) {
         this.main = main;
     }
 
-    public Wind getWind() {
+    public RealmWind getWind() {
         return wind;
     }
 
-    public void setWind(Wind wind) {
+    public void setWind(RealmWind wind) {
         this.wind = wind;
     }
 

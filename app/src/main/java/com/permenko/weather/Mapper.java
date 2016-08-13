@@ -1,9 +1,13 @@
 package com.permenko.weather;
 
 import com.permenko.weather.data.City;
+import com.permenko.weather.data.Main;
 import com.permenko.weather.data.Weather;
+import com.permenko.weather.data.Wind;
 import com.permenko.weather.data.realm.RealmCity;
+import com.permenko.weather.data.realm.RealmMain;
 import com.permenko.weather.data.realm.RealmWeather;
+import com.permenko.weather.data.realm.RealmWind;
 
 import java.util.ArrayList;
 
@@ -22,11 +26,11 @@ public class Mapper {
             RealmCity realmCity = realmCities.get(i);
             City city = new City();
 
-            city.setMain(realmCity.getMain());
+            city.setMain(getMain(realmCity.getMain()));
             city.setId(realmCity.getId());
             city.setName(realmCity.getName());
             city.setWeather(getWeather(realmCity.getWeather()));
-            city.setWind(realmCity.getWind());
+            city.setWind(getWind(realmCity.getWind()));
 
             cities.add(i, city);
         }
@@ -44,15 +48,54 @@ public class Mapper {
             City city = cities.get(i);
             RealmCity realmCity = new RealmCity();
 
-            realmCity.setMain(city.getMain());
+            realmCity.setMain(getRealmMain(city.getMain()));
             realmCity.setId(city.getId());
             realmCity.setName(city.getName());
-            realmCity.setWeather(getWeather(city.getWeather()));
-            realmCity.setWind(city.getWind());
+            ArrayList<Weather> weather = city.getWeather();
+            RealmList<RealmWeather> realmWeather = new RealmList<RealmWeather>();
+            realmWeather = getRealmWeather(weather);
+            realmCity.setWeather(realmWeather);
+            realmCity.setWind(getRealmWind(city.getWind()));
 
             realmCities.add(i, realmCity);
         }
         return realmCities;
+    }
+
+    private Main getMain(RealmMain realmMain) {
+        Main main = new Main();
+        main.setHumidity(realmMain.getHumidity());
+        main.setPressure(realmMain.getPressure());
+        main.setTemp(realmMain.getTemp());
+        main.setTempMax(realmMain.getTempMax());
+        main.setTempMin(realmMain.getTempMin());
+        return main;
+    }
+
+    private RealmMain getRealmMain(Main main) {
+        RealmMain realmMain = new RealmMain();
+        realmMain.setHumidity(main.getHumidity());
+        realmMain.setPressure(main.getPressure());
+        realmMain.setTemp(main.getTemp());
+        realmMain.setTempMax(main.getTempMax());
+        realmMain.setTempMin(main.getTempMin());
+        return realmMain;
+    }
+
+    private Wind getWind(RealmWind realmWind) {
+        Wind wind = new Wind();
+        wind.setDeg(realmWind.getDeg());
+        wind.setGust(realmWind.getGust());
+        wind.setSpeed(realmWind.getSpeed());
+        return wind;
+    }
+
+    private RealmWind getRealmWind(Wind wind) {
+        RealmWind realmWind = new RealmWind();
+        realmWind.setDeg(wind.getDeg());
+        realmWind.setGust(wind.getGust());
+        realmWind.setSpeed(wind.getSpeed());
+        return realmWind;
     }
 
     private ArrayList<Weather> getWeather(RealmList<RealmWeather> weatherRealmList) {
@@ -60,19 +103,20 @@ public class Mapper {
 
         for (int i = 0; i < weatherRealmList.size(); ++i) {
             Weather weather = new Weather();
-            weather.setDescription(weatherRealmList.get(i).getDescription());
+            RealmWeather realmWeather = weatherRealmList.get(i);
+            String description = realmWeather.getDescription();
+            weather.setDescription(description);
             weatherList.add(weather);
         }
         return weatherList;
     }
 
-    private RealmList<RealmWeather> getWeather(ArrayList<Weather> weatherList) {
+    private RealmList<RealmWeather> getRealmWeather(ArrayList<Weather> weatherList) {
         RealmList<RealmWeather> weatherRealmList = new RealmList<>();
-
         for (int i = 0; i < weatherList.size(); ++i) {
-            Weather weather = new Weather();
-            weather.setDescription(weatherList.get(i).getDescription());
-            weatherList.add(weather);
+            RealmWeather realmWeather = new RealmWeather();
+            realmWeather.setDescription(weatherList.get(i).getDescription());
+            weatherRealmList.add(realmWeather);
         }
         return weatherRealmList;
     }
