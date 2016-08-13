@@ -27,8 +27,9 @@ public class AddCityDialog extends DialogFragment {
         try {
             listener = (ClickListener) context;
         } catch (ClassCastException e) {
-            //do something
-            e.printStackTrace();
+            //Reminder for the developer
+            throw new ClassCastException(context.toString()
+                    + " must implement ClickListener");
         }
 
     }
