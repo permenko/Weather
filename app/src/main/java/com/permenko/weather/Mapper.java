@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import io.realm.RealmList;
 
+//todo: find a better way to map RealmList to ArrayList and back
 public class Mapper {
 
     public ArrayList<City> getCities(RealmList<RealmCity> realmCities) {
