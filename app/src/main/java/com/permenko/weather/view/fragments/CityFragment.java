@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.permenko.weather.R;
 import com.permenko.weather.data.City;
 
@@ -33,7 +32,7 @@ public class CityFragment extends Fragment {
     public static CityFragment newInstance(City city) {
         CityFragment fragment = new CityFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(CITY, new Gson().toJson(city));
+        bundle.putSerializable(CITY, city);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -41,12 +40,11 @@ public class CityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setRetainInstance(true);
         View layout = inflater.inflate(R.layout.fragment_city, container, false);
         unbinder = ButterKnife.bind(this, layout);
 
-        final City city = new Gson().fromJson(getArguments().getString(CITY), City.class);
-        showCityInfo(city);
+        final City city = (City) getArguments().getSerializable(CITY);
+        showInfo(city);
 
         return layout;
     }
@@ -57,7 +55,7 @@ public class CityFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void showCityInfo(City city) {
+    private void showInfo(City city) {
         cityName.setText(city.getName());
         weatherTemperature.setText(getString(R.string.temperature, String.valueOf(city.getMain().getTemp())));
         weatherHumidity.setText(getString(R.string.humidity, String.valueOf(city.getMain().getHumidity())));
