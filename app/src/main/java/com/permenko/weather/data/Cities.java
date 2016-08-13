@@ -3,15 +3,13 @@ package com.permenko.weather.data;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
-public class Cities extends RealmObject implements Serializable {
+public class Cities implements Serializable {
     @SerializedName("cnt")
     private int count;
     @SerializedName("list")
-    private RealmList<City> cities;
+    private ArrayList<City> cities;
 
     public int getCount() {
         return count;
@@ -22,11 +20,11 @@ public class Cities extends RealmObject implements Serializable {
         return this;
     }
 
-    public RealmList<City> getCities() {
+    public ArrayList<City> getCities() {
         return cities;
     }
 
-    public Cities setCities(RealmList<City> cities) {
+    public Cities setCities(ArrayList<City> cities) {
         this.cities = cities;
         return this;
     }

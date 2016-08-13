@@ -1,8 +1,10 @@
-package com.permenko.weather.data;
+package com.permenko.weather.data.realm;
 
 import java.io.Serializable;
 
-public class Main implements Serializable {
+import io.realm.RealmObject;
+
+public class RealmMain extends RealmObject implements Serializable {
 
     private Float temp;
     private Float pressure;

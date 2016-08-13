@@ -1,8 +1,8 @@
-package com.permenko.weather.data;
+package com.permenko.weather.data.realm;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
 
-public class Weather implements Serializable {
+public class RealmWeather extends RealmObject {
     private Integer id;
     private String main;
     private String description;

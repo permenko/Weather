@@ -1,13 +1,20 @@
-package com.permenko.weather.data;
+package com.permenko.weather.data.realm;
+
+import com.permenko.weather.data.Main;
+import com.permenko.weather.data.Wind;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public class City implements Serializable {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class RealmCity extends RealmObject implements Serializable {
     //private String updateTime;
-    private ArrayList<Weather> weather;
+    private RealmList<RealmWeather> weather;
     private Main main;
     private Wind wind;
+    @PrimaryKey
     private Integer id;
     private String name;
 
@@ -19,16 +26,16 @@ public class City implements Serializable {
         return updateTime;
     }
 
-    public City setUpdateTime(String updateTime) {
+    public RealCity setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
         return this;
     }*/
 
-    public ArrayList<Weather> getWeather() {
+    public RealmList<RealmWeather> getWeather() {
         return weather;
     }
 
-    public void setWeather(ArrayList<Weather> weather) {
+    public void setWeather(RealmList<RealmWeather> weather) {
         this.weather = weather;
     }
 

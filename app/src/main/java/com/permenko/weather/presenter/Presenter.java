@@ -1,8 +1,8 @@
 package com.permenko.weather.presenter;
 
 import com.permenko.weather.DbHelper;
-import com.permenko.weather.model.ModelImplRealm;
-import com.permenko.weather.model.ModelRealm;
+import com.permenko.weather.model.ModelImpl;
+import com.permenko.weather.model.Model;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -11,16 +11,16 @@ public class Presenter {
 
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
-    private ModelImplRealm model;
+    private ModelImpl model;
     private DbHelper dbHelper;
 
     Presenter() {
-        model = new ModelImplRealm();
+        model = new ModelImpl();
         dbHelper = new DbHelper();
         model.addDbHelper(dbHelper);
     }
 
-    ModelRealm getModel() {
+    Model getModel() {
         return model;
     }
 

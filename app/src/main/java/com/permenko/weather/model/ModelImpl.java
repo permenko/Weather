@@ -6,14 +6,15 @@ import com.permenko.weather.data.City;
 import com.permenko.weather.model.api.ApiInterface;
 import com.permenko.weather.model.api.ApiModule;
 
-import io.realm.RealmList;
+import java.util.ArrayList;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.permenko.weather.Constants.*;
 
-public class ModelImplRealm implements ModelRealm {
+public class ModelImpl implements Model {
 
     private ApiInterface apiInterface = ApiModule.getApiInterface(URL);
     private DbHelper dbHelper;
@@ -29,16 +30,16 @@ public class ModelImplRealm implements ModelRealm {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private Observable<RealmList<City>> cache(RealmList<City> cities) {
+    private Observable<ArrayList<City>> cache(ArrayList<City> cities) {
         return dbHelper.cache(cities);
     }
 
-    private Observable<RealmList<City>> getCached() {
+    private Observable<ArrayList<City>> getCached() {
         return dbHelper.getCached();
     }
 
     @Override
-    public Observable<RealmList<City>> getGroupWeather() {
+    public Observable<ArrayList<City>> getGroupWeather() {
 
         return apiInterface.getGroupWeather(API_KEY, DEFAULT_LANGUAGE, DEFAULT_UNITS, getIds())
                 .subscribeOn(Schedulers.newThread())
@@ -59,12 +60,12 @@ public class ModelImplRealm implements ModelRealm {
     }
 
     @Override
-    public Observable<RealmList<City>> addCity(City city) {
+    public Observable<ArrayList<City>> addCity(City city) {
         return dbHelper.addCity(city);
     }
 
     @Override
-    public Observable<RealmList<City>> deleteCity(int position, City city) {
+    public Observable<ArrayList<City>> deleteCity(int position, City city) {
         return dbHelper.deleteCity(city);
     }
 

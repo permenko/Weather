@@ -1,7 +1,9 @@
 package com.permenko.weather;
 
 import com.permenko.weather.data.City;
+import com.permenko.weather.data.realm.RealmCity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -16,13 +18,16 @@ import rx.Observable;
 public class DbHelper {
 
     private Realm realm;
+    private Mapper mapper = null;
 
     public DbHelper() {
         realm = Realm.getDefaultInstance();
+        mapper = new Mapper();
     }
 
     public void onStop() {
         realm.close();
+        mapper = null;
     }
 
     public Observable<List<Integer>> getIds() {
@@ -36,24 +41,23 @@ public class DbHelper {
         }
     }
 
-    public Observable<RealmList<City>> cache(RealmList<City> cities) {
+    public Observable<ArrayList<City>> cache(ArrayList<City> cities) {
         realm.beginTransaction();
 
-        //set updateTime for each City
+        /*//set updateTime for each City
         for (int i = 0; i < cities.size(); ++i) {
             cities.get(i).setUpdateTime(Utils.getDate());
-        }
-
-        realm.copyToRealmOrUpdate(cities);
+        }*/
+        realm.copyToRealmOrUpdate(mapper.getRealmCities(cities));
         realm.commitTransaction();
         return Observable.just(cities);
     }
 
-    public Observable<RealmList<City>> getCached() {
-        RealmList<City> cities = new RealmList<>();
+    public Observable<ArrayList<City>> getCached() {
+        RealmList<RealmCity> realmCities = new RealmList<>();
         //try to get cached data
-        cities.addAll(realm.where(City.class).findAll());
-        return Observable.just(cities);
+        realmCities.addAll(realm.where(RealmCity.class).findAll());
+        return Observable.just(mapper.getCities(realmCities));
     }
 
     private boolean contains(final City cityToCheck) {
@@ -66,13 +70,15 @@ public class DbHelper {
                 .first();
     }
 
-    public Observable<RealmList<City>> addCity(City city) {
+    public Observable<ArrayList<City>> addCity(City city) {
         if (contains(city)) throw new IllegalArgumentException();
-        return cache(new RealmList<>(city));
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(city);
+        return cache(cities);
     }
 
-    public Observable<RealmList<City>> deleteCity(City city) {
-        City realmCity = realm.where(City.class).equalTo("id", city.getId()).findFirst();
+    public Observable<ArrayList<City>> deleteCity(City city) {
+        RealmCity realmCity = realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
         realm.beginTransaction();
         realmCity.deleteFromRealm();
         realm.commitTransaction();
