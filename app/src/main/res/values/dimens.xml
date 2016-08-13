@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="toolbar_height">56dp</dimen>
+
+    <dimen name="screen_margin">16dp</dimen>
+    <dimen name="content_padding">8dp</dimen>
+
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+</resources>

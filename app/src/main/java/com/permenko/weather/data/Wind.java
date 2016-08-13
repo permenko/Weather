@@ -2,8 +2,6 @@ package com.permenko.weather.data;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-
 public class Wind implements Serializable {
 
     private Float speed;

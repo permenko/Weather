@@ -2,14 +2,11 @@ package com.permenko.weather.view.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
-import com.google.gson.Gson;
 import com.permenko.weather.R;
-import com.permenko.weather.data.City;
 
 public class ErrorDialog extends DialogFragment {
 

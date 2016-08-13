@@ -52,10 +52,7 @@ public class Mapper {
             realmCity.setMain(getRealmMain(city.getMain()));
             realmCity.setId(city.getId());
             realmCity.setName(city.getName());
-            ArrayList<Weather> weather = city.getWeather();
-            RealmList<RealmWeather> realmWeather = new RealmList<RealmWeather>();
-            realmWeather = getRealmWeather(weather);
-            realmCity.setWeather(realmWeather);
+            realmCity.setWeather(getRealmWeather(city.getWeather()));
             realmCity.setWind(getRealmWind(city.getWind()));
 
             realmCities.add(i, realmCity);
