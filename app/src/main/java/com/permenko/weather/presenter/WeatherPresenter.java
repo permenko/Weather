@@ -70,8 +70,8 @@ public class WeatherPresenter extends Presenter {
                             errorId = R.string.error_timeout;
                         } else if (e instanceof IllegalArgumentException) {
                             errorId = R.string.error_already_added;
-                        } else if (e instanceof JsonSyntaxException) { //imagine that the city cannot be found
-                            errorId = R.string.error_city_not_found;
+                        } else if (e instanceof JsonSyntaxException) { //imagine that the user have no internet connection
+                            errorId = R.string.error_json_syntax;
                         } else if (e instanceof NullPointerException) { // means that city was null (i'm almost sure)
                             errorId = R.string.error_city_not_found;
                         } else  {
