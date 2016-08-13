@@ -54,6 +54,7 @@ public class CitiesFragment extends Fragment
 
     }
 
+    private static final String INITIAL_STATE = "INITIAL_STATE";
     private Unbinder unbinder;
     private View layout;
 
@@ -76,6 +77,15 @@ public class CitiesFragment extends Fragment
         progressBar.setVisibility(View.GONE);
     }
 
+    public static CitiesFragment newInstance() {
+        //mark state after calling newInstance as initial
+        CitiesFragment fragment = new CitiesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(INITIAL_STATE, true);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +98,7 @@ public class CitiesFragment extends Fragment
         presenter = new WeatherPresenter(this, savedInstanceState);
         citiesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && getArguments().getBoolean(INITIAL_STATE, false)) {
             //should update weather from server
             getCities();
         }
