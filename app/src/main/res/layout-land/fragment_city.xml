@@ -16,18 +16,19 @@
         android:id="@+id/city_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_large"
         android:textColor="@color/white"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        android:fontFamily="@string/font_regular"
+        android:paddingLeft="@dimen/screen_margin"
+        android:paddingRight="@dimen/screen_margin"
+        android:layout_marginTop="@dimen/toolbar_height"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:paddingBottom="@dimen/content_padding"
+        android:paddingTop="@dimen/content_padding"
         android:layout_gravity="top">
 
         <TextView
@@ -35,8 +36,9 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@color/white"
+            android:fontFamily="@string/font_regular"
             android:gravity="center"/>
 
         <View
@@ -50,8 +52,9 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@color/white"
+            android:fontFamily="@string/font_regular"
             android:gravity="center"/>
 
         <View
@@ -65,8 +68,9 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@color/white"
+            android:fontFamily="@string/font_regular"
             android:gravity="center"/>
 
     </LinearLayout>

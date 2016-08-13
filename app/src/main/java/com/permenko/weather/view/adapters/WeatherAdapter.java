@@ -7,7 +7,6 @@ import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.permenko.weather.R;
@@ -37,17 +36,12 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.name.setText(getItem(position).getName());
-        viewHolder.temperature.setText(getItem(position).getMain().getTemp().toString() + (char) 0x00B0 + "C");
-        viewHolder.background.setOnClickListener(view -> ((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position))));
-        viewHolder.background.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //vibrate two times :(
-                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                int position = viewHolder.getAdapterPosition();
-                showDialog(DeleteCityDialog.newInstance(position, getItem(position)));
-                return true;
-            }
+        viewHolder.temperature.setText(context.getString(R.string.item_city_temperature, getItem(position).getMain().getTemp().toString()));
+        viewHolder.name.setOnClickListener(view -> ((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position))));
+        viewHolder.name.setOnLongClickListener(view -> {
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            showDialog(DeleteCityDialog.newInstance(position, getItem(position)));
+            return true;
         });
     }
 
@@ -77,13 +71,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView temperature;
-        private FrameLayout background;
 
         ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.city_name);
             temperature = (TextView) itemView.findViewById(R.id.city_temperature);
-            background = (FrameLayout) itemView.findViewById(R.id.background);
         }
     }
 }

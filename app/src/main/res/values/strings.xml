@@ -8,9 +8,6 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
     <string name="city_delete_title">Delete city?</string>
-    <string name="city_name">City name: %1$s</string>
-    <string name="city_temperature">City temperature: %1$s</string>
-    <string name="city_update_time">Update time: %1$s &#x2103;</string>
 
     <string name="error_no_internet_connection">No internet connection</string>
     <string name="error_timeout">Timeout error</string>
@@ -23,6 +20,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <string name="item_city_temperature">%1$s&#x00B0;</string>
     <string name="temperature">Temperature\n%1$s&#x00B0;</string>
     <string name="humidity">Humidity\n%1$s\%</string>
     <string name="wind_speed">Wind Speed\n%1$s m/s</string>

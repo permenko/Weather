@@ -119,7 +119,6 @@ public class CitiesFragment extends Fragment
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
-        //toolbar.setTitleTextColor(getActivity().getColor(R.color.white));
     }
 
     private void getCities() {

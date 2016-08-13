@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
     <color name="dark_blue">#0E3853</color>
     <color name="light_blue">#85C7EF</color>
 </resources>

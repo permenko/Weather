@@ -15,10 +15,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * Крашится после двух поворотов экрана
- */
 public class CityFragment extends Fragment {
+
+    private static final String CITY = "CITY";
 
     private Unbinder unbinder;
 
@@ -31,8 +30,6 @@ public class CityFragment extends Fragment {
     @BindView(R.id.weather_wind_speed)
     TextView weatherWindSpeed;
 
-    private static final String CITY = "CITY";
-
     public static CityFragment newInstance(City city) {
         CityFragment fragment = new CityFragment();
         Bundle bundle = new Bundle();
@@ -44,11 +41,12 @@ public class CityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_city_new, container, false);
+        setRetainInstance(true);
+        View layout = inflater.inflate(R.layout.fragment_city, container, false);
         unbinder = ButterKnife.bind(this, layout);
 
         final City city = new Gson().fromJson(getArguments().getString(CITY), City.class);
-        loadInfo(city);
+        showCityInfo(city);
 
         return layout;
     }
@@ -59,7 +57,7 @@ public class CityFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void loadInfo(City city) {
+    private void showCityInfo(City city) {
         cityName.setText(city.getName());
         weatherTemperature.setText(getString(R.string.temperature, String.valueOf(city.getMain().getTemp())));
         weatherHumidity.setText(getString(R.string.humidity, String.valueOf(city.getMain().getHumidity())));

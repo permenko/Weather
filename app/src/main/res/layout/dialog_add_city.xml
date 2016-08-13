@@ -8,7 +8,9 @@
         android:id="@+id/city_name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:fontFamily="@string/font_regular"
         android:hint="@string/dialog_add_city_hint"
-        android:layout_margin="10dp"/>
+        android:layout_margin="@dimen/screen_margin"/>
 
 </FrameLayout>
