@@ -13,6 +13,7 @@ import com.permenko.weather.R;
 import com.permenko.weather.data.City;
 import com.permenko.weather.view.activities.MainActivity;
 import com.permenko.weather.view.dialogs.DeleteCityDialog;
+import com.permenko.weather.view.fragments.CitiesFragment;
 import com.permenko.weather.view.fragments.CityFragment;
 
 import java.util.ArrayList;
@@ -21,9 +22,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
     private Context context;
     private ArrayList<City> objects;
+    private CitiesFragment.ActivityListener activityListener;
 
-    public WeatherAdapter(ArrayList<City> objects) {
+    public WeatherAdapter(ArrayList<City> objects, CitiesFragment.ActivityListener activityListener) {
         this.objects = objects;
+        this.activityListener = activityListener;
     }
 
     @Override
@@ -37,7 +40,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.name.setText(getItem(position).getName());
         viewHolder.temperature.setText(context.getString(R.string.item_city_temperature, getItem(position).getMain().getTemp().toString()));
-        viewHolder.name.setOnClickListener(view -> ((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position))));
+        viewHolder.name.setOnClickListener(view -> {
+            activityListener.replaceFragment(CityFragment.newInstance(getItem(position)));
+            //((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position)));
+        });
         viewHolder.name.setOnLongClickListener(view -> {
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             showDialog(DeleteCityDialog.newInstance(position, getItem(position)));

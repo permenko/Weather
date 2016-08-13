@@ -12,7 +12,7 @@ import com.permenko.weather.view.dialogs.DeleteCityDialog;
 import com.permenko.weather.view.fragments.CitiesFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements DeleteCityDialog.ClickListener, AddCityDialog.ClickListener, CompareCityDialog.ClickListener {
+        implements DeleteCityDialog.ClickListener, AddCityDialog.ClickListener, CompareCityDialog.ClickListener, CitiesFragment.ActivityListener {
 
     private final String CITIES_FRAGMENT_TAG = "CitiesFragment";
 

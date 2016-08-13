@@ -1,5 +1,6 @@
 package com.permenko.weather.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,26 @@ import butterknife.Unbinder;
 
 public class CitiesFragment extends Fragment
         implements WeatherPresenter.View {
+
+    private ActivityListener activityListener;
+
+    public interface ActivityListener {
+        void replaceFragment(Fragment fragment);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            activityListener = (CitiesFragment.ActivityListener) context;
+        } catch (ClassCastException e) {
+            //Reminder for the developer
+            throw new ClassCastException(context.toString()
+                    + " must implement ActivityListener");
+        }
+
+    }
 
     private Unbinder unbinder;
     private View layout;
@@ -71,6 +92,7 @@ public class CitiesFragment extends Fragment
             //should update weather from server
             getCities();
         }
+        getActivity();
         return layout;
     }
 
@@ -170,7 +192,7 @@ public class CitiesFragment extends Fragment
 
     @Override
     public void updateAdapter(ArrayList<City> cities) {
-        adapter = new WeatherAdapter(cities);
+        adapter = new WeatherAdapter(cities, activityListener);
         citiesList.setAdapter(adapter);
         citiesList.invalidate();
     }
