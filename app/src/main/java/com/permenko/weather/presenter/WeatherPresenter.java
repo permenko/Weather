@@ -1,11 +1,9 @@
 package com.permenko.weather.presenter;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
-import com.permenko.weather.Utils;
 import com.permenko.weather.data.City;
 
 import java.net.UnknownHostException;
@@ -81,7 +79,7 @@ public class WeatherPresenter extends Presenter {
                             errorId = R.string.error_timeout;
                         } else if (e instanceof IllegalArgumentException) {
                             errorId = R.string.error_already_added;
-                        } else if (e instanceof JsonSyntaxException) {
+                        } else if (e instanceof JsonSyntaxException) { //imagine that the city cannot be found
                             errorId = R.string.error_city_not_found;
                         } else if (e instanceof NullPointerException) { // means that city was null (i'm almost sure)
                             errorId = R.string.error_city_not_found;
@@ -134,11 +132,8 @@ public class WeatherPresenter extends Presenter {
         Subscription subscription = getModel().getGroupWeather()
                 .doOnNext(cityList -> {
 
+                    //create new ArrayList from RealmList
                     cities = new ArrayList<>(cityList);
-
-                    for (int i = 0; i < cities.size(); ++i) {
-                        Log.d("weatherPresenter", "name=" + cities.get(i).getName() + " updateTime=" + cities.get(i).getUpdateTime());
-                    }
 
                     view.updateAdapter(cities);
                     view.hideProgress();
