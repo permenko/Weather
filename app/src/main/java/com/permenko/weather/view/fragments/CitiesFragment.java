@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.permenko.weather.R;
 import com.permenko.weather.data.City;
@@ -24,6 +25,7 @@ import com.permenko.weather.presenter.WeatherPresenter;
 import com.permenko.weather.view.adapters.WeatherAdapter;
 import com.permenko.weather.view.dialogs.AddCityDialog;
 import com.permenko.weather.view.dialogs.CompareCityDialog;
+import com.permenko.weather.view.dialogs.ErrorDialog;
 
 import java.util.ArrayList;
 
@@ -34,10 +36,11 @@ import butterknife.Unbinder;
 public class CitiesFragment extends Fragment
         implements WeatherPresenter.View {
 
-    private ActivityListener activityListener;
+    private ActivityListener getActivity;
 
     public interface ActivityListener {
         void replaceFragment(Fragment fragment);
+        void showDialog(DialogFragment dialog);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CitiesFragment extends Fragment
         super.onAttach(context);
 
         try {
-            activityListener = (CitiesFragment.ActivityListener) context;
+            getActivity = (CitiesFragment.ActivityListener) context;
         } catch (ClassCastException e) {
             //Reminder for the developer
             throw new ClassCastException(context.toString()
@@ -68,6 +71,7 @@ public class CitiesFragment extends Fragment
 
     private WeatherAdapter adapter;
     private ArrayList<City> cities;
+    //todo: deal with savedInstanceState and find better way to restore cities data
     private boolean isInitial = true;
 
     @Override
@@ -126,7 +130,7 @@ public class CitiesFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_city:
-                showDialog(new AddCityDialog());
+                getActivity.showDialog(new AddCityDialog());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -161,25 +165,12 @@ public class CitiesFragment extends Fragment
 
     @Override
     public void showMessage(int messageId) {
-        showMessage(getString(messageId));
-    }
-
-    private void showMessage(String message) {
-        AlertDialog dialog = new AlertDialog.Builder(getContext())
-                .setMessage(message)
-                .setPositiveButton(R.string.action_ok, null)
-                .show();
-        //center text in dialog
-        ((TextView) dialog.findViewById(android.R.id.message)).setGravity(Gravity.CENTER);
+        getActivity.showDialog(ErrorDialog.newInstance(messageId));
     }
 
     @Override
     public void compareNames(City city) {
-        showDialog(CompareCityDialog.newInstance(city));
-    }
-
-    private void showDialog(DialogFragment dialog) {
-        dialog.show(getActivity().getSupportFragmentManager(), dialog.getClass().getSimpleName());
+        getActivity.showDialog(CompareCityDialog.newInstance(city));
     }
 
     public void getWeather(String cityName) {
@@ -189,7 +180,7 @@ public class CitiesFragment extends Fragment
     @Override
     public void updateAdapter(ArrayList<City> cities) {
         this.cities = cities;
-        adapter = new WeatherAdapter(cities, activityListener);
+        adapter = new WeatherAdapter(cities, getActivity);
         citiesList.setAdapter(adapter);
         citiesList.invalidate();
     }

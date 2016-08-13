@@ -1,6 +1,7 @@
 package com.permenko.weather.view.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
+    }
+
+    public void showDialog(DialogFragment dialog) {
+        dialog.show(getSupportFragmentManager(), dialog.getClass().getSimpleName());
     }
 
     @Override

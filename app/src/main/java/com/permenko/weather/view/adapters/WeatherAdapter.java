@@ -22,11 +22,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
     private Context context;
     private ArrayList<City> objects;
-    private CitiesFragment.ActivityListener activityListener;
+    private CitiesFragment.ActivityListener getActivity;
 
-    public WeatherAdapter(ArrayList<City> objects, CitiesFragment.ActivityListener activityListener) {
+    public WeatherAdapter(ArrayList<City> objects, CitiesFragment.ActivityListener getActivity) {
         this.objects = objects;
-        this.activityListener = activityListener;
+        this.getActivity = getActivity;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         viewHolder.name.setText(getItem(position).getName());
         viewHolder.temperature.setText(context.getString(R.string.item_city_temperature, getItem(position).getMain().getTemp().toString()));
         viewHolder.name.setOnClickListener(view -> {
-            activityListener.replaceFragment(CityFragment.newInstance(getItem(position)));
+            getActivity.replaceFragment(CityFragment.newInstance(getItem(position)));
             //((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position)));
         });
         viewHolder.name.setOnLongClickListener(view -> {
