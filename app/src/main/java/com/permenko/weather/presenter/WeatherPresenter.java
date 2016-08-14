@@ -13,7 +13,6 @@ import java.util.concurrent.TimeoutException;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class WeatherPresenter extends Presenter {
