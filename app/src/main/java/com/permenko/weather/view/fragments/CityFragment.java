@@ -60,7 +60,7 @@ public class CityFragment extends Fragment {
     private void showInfo(City city) {
         String description = "";
         try {
-            description = "," + city.getWeather().get(0).getDescription();
+            description = ", " + city.getWeather().get(0).getDescription();
         } catch (Exception e) {
             description = "";
         } finally {
