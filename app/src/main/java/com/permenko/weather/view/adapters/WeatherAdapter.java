@@ -46,7 +46,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         });
         viewHolder.name.setOnLongClickListener(view -> {
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            showDialog(DeleteCityDialog.newInstance(position, getItem(position)));
+            showDialog(DeleteCityDialog.newInstance(viewHolder.getAdapterPosition(), getItem(viewHolder.getAdapterPosition())));
             return true;
         });
     }
