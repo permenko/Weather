@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.permenko.weather.R;
 import com.permenko.weather.data.City;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
