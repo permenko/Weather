@@ -71,7 +71,7 @@ public class DbHelper {
     }
 
     public Observable<ArrayList<City>> addCity(City city) {
-        if (contains(city)) throw new IllegalArgumentException();
+        if (contains(city)) return Observable.error(new IllegalArgumentException());
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         return cache(cities);

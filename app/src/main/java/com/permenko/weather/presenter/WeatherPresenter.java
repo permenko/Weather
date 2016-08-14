@@ -13,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class WeatherPresenter extends Presenter {
@@ -96,17 +97,13 @@ public class WeatherPresenter extends Presenter {
     public Subscription addCity(City city) {
         return getModel()
                 .addCity(city)
-                .doOnError(throwable -> view.showMessage(R.string.error_already_added))
-                .doOnNext(cities -> view.updateAdapter(city))
-                .subscribe();
+                .subscribe(cities -> view.updateAdapter(city), throwable -> view.showMessage(R.string.error_already_added));
     }
 
     public Subscription deleteCity(int position, City city) {
         return getModel()
                 .deleteCity(position, city)
-                .doOnError(throwable -> view.showMessage(R.string.error_unknown))
-                .doOnNext(o -> view.updateAdapter(position))
-                .subscribe();
+                .subscribe(o -> view.updateAdapter(position), throwable -> view.showMessage(R.string.error_unknown));
     }
 
     @Override
