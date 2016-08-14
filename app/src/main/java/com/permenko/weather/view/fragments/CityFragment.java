@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.permenko.weather.R;
 import com.permenko.weather.data.City;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -58,7 +60,14 @@ public class CityFragment extends Fragment {
     }
 
     private void showInfo(City city) {
-        cityName.setText(city.getName());
+        String description = "";
+        try {
+            description = "," + city.getWeather().get(0).getDescription();
+        } catch (Exception e) {
+            description = "";
+        } finally {
+            cityName.setText(getString(R.string.city_with_description, city.getName(), description));
+        }
         weatherTemperature.setText(getString(R.string.temperature, String.valueOf(city.getMain().getTemp())));
         weatherHumidity.setText(getString(R.string.humidity, String.valueOf(city.getMain().getHumidity())));
         weatherWindSpeed.setText(getString(R.string.wind_speed, String.valueOf(city.getWind().getSpeed())));
