@@ -1,6 +1,7 @@
 package com.permenko.weather.model;
 
 import com.permenko.weather.App;
+import com.permenko.weather.Constants;
 import com.permenko.weather.DbHelper;
 import com.permenko.weather.data.City;
 import com.permenko.weather.model.api.ApiInterface;
@@ -12,9 +13,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.permenko.weather.Constants.*;
-
-public class ModelImpl implements Model {
+public class ModelImpl implements Model, Constants {
 
     private ApiInterface apiInterface = ApiModule.getApiInterface(URL);
     private DbHelper dbHelper;
