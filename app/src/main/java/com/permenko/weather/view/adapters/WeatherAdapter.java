@@ -39,7 +39,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.name.setText(getItem(position).getName());
-        viewHolder.temperature.setText(context.getString(R.string.item_city_temperature, getItem(position).getMain().getTemp().toString()));
+        int temperature = Math.round(getItem(position).getMain().getTemp());
+        viewHolder.temperature.setText(context.getString(R.string.item_city_temperature, String.valueOf(temperature)));
         viewHolder.name.setOnClickListener(view -> {
             getActivity.replaceFragment(CityFragment.newInstance(getItem(position)));
             //((MainActivity) context).replaceFragment(CityFragment.newInstance(getItem(position)));

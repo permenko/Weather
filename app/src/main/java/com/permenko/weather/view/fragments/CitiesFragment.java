@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,6 +61,8 @@ public class CitiesFragment extends Fragment
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refreshLayout;
     @BindView(R.id.cities_list)
     RecyclerView citiesList;
     @BindView(R.id.progress_bar)
@@ -79,6 +82,11 @@ public class CitiesFragment extends Fragment
         layout = inflater.inflate(R.layout.fragment_cities, container, false);
         unbinder = ButterKnife.bind(this, layout);
         initToolbar();
+        refreshLayout.setOnRefreshListener(() -> {
+            getCities();
+            //getCities call showProgress, but we don't want to show
+            hideProgress();
+        });
         presenter = new WeatherPresenter(this, savedInstanceState);
         citiesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -175,6 +183,7 @@ public class CitiesFragment extends Fragment
 
     @Override
     public void updateAdapter(ArrayList<City> cities) {
+        if (refreshLayout.isRefreshing()) refreshLayout.setRefreshing(false);
         this.cities = cities;
         adapter = new WeatherAdapter(cities, getActivity);
         citiesList.setAdapter(adapter);
