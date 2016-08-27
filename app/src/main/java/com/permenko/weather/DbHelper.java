@@ -42,14 +42,7 @@ public class DbHelper {
     }
 
     public Observable<ArrayList<City>> cache(ArrayList<City> cities) {
-        realm.beginTransaction();
-
-        /*//set updateTime for each City
-        for (int i = 0; i < cities.size(); ++i) {
-            cities.get(i).setUpdateTime(Utils.getDate());
-        }*/
-        realm.copyToRealmOrUpdate(mapper.getRealmCities(cities));
-        realm.commitTransaction();
+        realm.executeTransaction(_realm -> _realm.copyToRealmOrUpdate(mapper.getRealmCities(cities)));
         return Observable.just(cities);
     }
 
@@ -78,10 +71,10 @@ public class DbHelper {
     }
 
     public Observable<ArrayList<City>> deleteCity(City city) {
-        RealmCity realmCity = realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
-        realm.beginTransaction();
-        realmCity.deleteFromRealm();
-        realm.commitTransaction();
+        realm.executeTransaction(_realm -> {
+            RealmCity realmCity = _realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
+            realmCity.deleteFromRealm();
+        });
 
         return getCached();
     }
