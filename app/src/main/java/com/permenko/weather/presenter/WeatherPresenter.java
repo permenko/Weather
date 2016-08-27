@@ -53,7 +53,7 @@ public class WeatherPresenter extends Presenter {
         view.showProgress();
 
         Subscription subscription = getModel().getWeather(cityName)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<City>() {
                     @Override

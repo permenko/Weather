@@ -25,7 +25,7 @@ public class ModelImpl implements Model, Constants {
     @Override
     public Observable<City> getWeather(String cityName) {
         return apiInterface.getWeather(API_KEY, DEFAULT_LANGUAGE, DEFAULT_UNITS, cityName)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -41,7 +41,7 @@ public class ModelImpl implements Model, Constants {
     public Observable<ArrayList<City>> getGroupWeather() {
 
         return apiInterface.getGroupWeather(API_KEY, DEFAULT_LANGUAGE, DEFAULT_UNITS, getIds())
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(cities -> {
                     //check the initial state
