@@ -104,6 +104,7 @@ public class Mapper {
             RealmWeather realmWeather = weatherRealmList.get(i);
             String description = realmWeather.getDescription();
             weather.setDescription(description);
+            weather.setIcon(realmWeather.getIcon());
             weatherList.add(weather);
         }
         return weatherList;
@@ -114,6 +115,7 @@ public class Mapper {
         for (int i = 0; i < weatherList.size(); ++i) {
             RealmWeather realmWeather = new RealmWeather();
             realmWeather.setDescription(weatherList.get(i).getDescription());
+            realmWeather.setIcon(weatherList.get(i).getIcon());
             weatherRealmList.add(realmWeather);
         }
         return weatherRealmList;

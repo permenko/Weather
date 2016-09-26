@@ -4,6 +4,7 @@
     <dimen name="screen_margin">16dp</dimen>
     <dimen name="content_padding">8dp</dimen>
 
+    <dimen name="text_size_extra_large">72sp</dimen>
     <dimen name="text_size_large">24sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
