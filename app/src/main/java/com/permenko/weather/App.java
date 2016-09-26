@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+//todo: use hawk instead of shared preferences
 public class App extends Application {
 
     private static final String INITIAL_STATE = "INITIAL_STATE";

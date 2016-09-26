@@ -1,26 +1,27 @@
 package com.permenko.weather.presenter;
 
-import com.permenko.weather.DbHelper;
-import com.permenko.weather.model.ModelImpl;
-import com.permenko.weather.model.Model;
+import com.permenko.weather.repository.DefaultOpenWeatherRepository;
+import com.permenko.weather.repository.OpenWeatherRepository;
+import com.permenko.weather.util.DbHelper;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
+//todo: do not use base presenter
 public class Presenter {
 
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
-    private ModelImpl model;
+    private DefaultOpenWeatherRepository model;
     private DbHelper dbHelper;
 
     Presenter() {
-        model = new ModelImpl();
+        model = new DefaultOpenWeatherRepository();
         dbHelper = new DbHelper();
         model.addDbHelper(dbHelper);
     }
 
-    Model getModel() {
+    OpenWeatherRepository getModel() {
         return model;
     }
 

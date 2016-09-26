@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
-import com.permenko.weather.data.City;
+import com.permenko.weather.model.City;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+//todo: move business logic from fragments/activities to presenter
+//todo: move view outside from presenter
 public class WeatherPresenter extends Presenter {
 
     private final String BUNDLE_CITIES = "BUNDLE_CITIES";
@@ -25,12 +27,19 @@ public class WeatherPresenter extends Presenter {
 
     public interface View {
         void updateAdapter(City city);
+
         void updateAdapter(int position); //delete city by position
+
         void addCity(City city);
+
         void showMessage(int messageId);
+
         void compareNames(City city);
+
         void updateAdapter(ArrayList<City> cities);
+
         void showProgress();
+
         void hideProgress();
     }
 
@@ -74,7 +83,7 @@ public class WeatherPresenter extends Presenter {
                             errorId = R.string.error_json_syntax;
                         } else if (e instanceof NullPointerException) { // means that city was null (i'm almost sure)
                             errorId = R.string.error_city_not_found;
-                        } else  {
+                        } else {
                             errorId = R.string.error_unknown;
                         }
                         view.showMessage(errorId);
