@@ -2,12 +2,16 @@ package com.permenko.weather.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.permenko.weather.R;
+import com.permenko.weather.Utils;
 import com.permenko.weather.data.City;
 
 import butterknife.BindView;
@@ -20,10 +24,12 @@ public class CityFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    @BindView(R.id.city_name)
-    TextView cityName;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.weather_temperature)
     TextView weatherTemperature;
+    @BindView(R.id.weather_icon)
+    ImageView weatherIcon;
     @BindView(R.id.weather_humidity)
     TextView weatherHumidity;
     @BindView(R.id.weather_wind_speed)
@@ -42,9 +48,10 @@ public class CityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_city, container, false);
         unbinder = ButterKnife.bind(this, layout);
-
         final City city = (City) getArguments().getSerializable(CITY);
+        initToolbar(city.getName());
         showInfo(city);
+
 
         return layout;
     }
@@ -57,16 +64,24 @@ public class CityFragment extends Fragment {
         }
     }
 
+    private void initToolbar(String title) {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        toolbar.setTitle(title);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(view -> activity.getSupportFragmentManager().popBackStack());
+    }
+
     private void showInfo(City city) {
-        String description = "";
+        String icon;
         try {
-            description = ", " + city.getWeather().get(0).getDescription();
+            icon = city.getWeather().get(0).getIcon();
         } catch (Exception e) {
-            description = "";
-        } finally {
-            cityName.setText(getString(R.string.city_with_description, city.getName(), description));
+            icon = "";
         }
-        weatherTemperature.setText(getString(R.string.temperature, String.valueOf(city.getMain().getTemp())));
+        if (icon == null) icon = "";
+        weatherTemperature.setText(getString(R.string.temperature, String.valueOf(Math.round(city.getMain().getTemp()))));
+        weatherIcon.setImageResource(Utils.getIcon(icon));
         weatherHumidity.setText(getString(R.string.humidity, String.valueOf(city.getMain().getHumidity())));
         weatherWindSpeed.setText(getString(R.string.wind_speed, String.valueOf(city.getWind().getSpeed())));
     }
