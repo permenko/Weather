@@ -62,6 +62,7 @@ public class CitiesFragment extends Fragment
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.refresh)
+            //todo: add colors
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.cities_list)
     RecyclerView citiesList;
