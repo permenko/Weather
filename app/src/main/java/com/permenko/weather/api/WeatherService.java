@@ -7,17 +7,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
-public interface ApiInterface {
+public interface WeatherService {
 
     @GET("weather")
-    Observable<City> getWeather(@Query("appid") String appId,
-                                @Query("lang") String language,
+    Observable<City> getWeather(@Query("lang") String language,
                                 @Query("units") String units,
                                 @Query("q") String cityName);
 
     @GET("group")
-    Observable<Cities> getGroupWeather(@Query("appid") String appId,
-                                       @Query("lang") String language,
+    Observable<Cities> getGroupWeather(@Query("lang") String language,
                                        @Query("units") String units,
                                        @Query("id") String ids);
 }

@@ -12,6 +12,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "API_ENDPOINT", '"http://api.openweathermap.org/data/2.5/"'
+        buildConfigField "String", "API_KEY", '"a70cdd49487e22258fad3a9b06e9829a"'
     }
     buildTypes {
         release {

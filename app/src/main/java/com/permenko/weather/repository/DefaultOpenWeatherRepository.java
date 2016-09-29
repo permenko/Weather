@@ -2,7 +2,7 @@ package com.permenko.weather.repository;
 
 import com.permenko.weather.App;
 import com.permenko.weather.api.ApiFactory;
-import com.permenko.weather.api.ApiInterface;
+import com.permenko.weather.api.WeatherService;
 import com.permenko.weather.model.City;
 import com.permenko.weather.util.Constants;
 import com.permenko.weather.util.DbHelper;
@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers;
 
 public class DefaultOpenWeatherRepository implements OpenWeatherRepository, Constants {
 
-    private ApiInterface apiInterface = ApiFactory.getApiInterface(URL);
+    private WeatherService apiInterface = ApiFactory.getWeatherService();
     private DbHelper dbHelper;
 
     public void addDbHelper(DbHelper dbHelper) {
@@ -24,7 +24,7 @@ public class DefaultOpenWeatherRepository implements OpenWeatherRepository, Cons
 
     @Override
     public Observable<City> getWeather(String cityName) {
-        return apiInterface.getWeather(API_KEY, DEFAULT_LANGUAGE, DEFAULT_UNITS, cityName)
+        return apiInterface.getWeather(DEFAULT_LANGUAGE, DEFAULT_UNITS, cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -40,7 +40,7 @@ public class DefaultOpenWeatherRepository implements OpenWeatherRepository, Cons
     @Override
     public Observable<ArrayList<City>> getGroupWeather() {
 
-        return apiInterface.getGroupWeather(API_KEY, DEFAULT_LANGUAGE, DEFAULT_UNITS, getIds())
+        return apiInterface.getGroupWeather(DEFAULT_LANGUAGE, DEFAULT_UNITS, getIds())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(cities -> {
