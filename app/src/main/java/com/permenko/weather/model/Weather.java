@@ -1,5 +1,7 @@
 package com.permenko.weather.model;
 
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 
 public class Weather implements Serializable {
@@ -50,6 +52,7 @@ public class Weather implements Serializable {
         this.deg = deg;
     }
 
+    @Nullable
     public String getIcon() {
         return icon;
     }

@@ -31,7 +31,7 @@ public class DeleteCityDialog extends DialogFragment {
 
     }
 
-    public static DeleteCityDialog newInstance(int position, City city) {
+    public static DeleteCityDialog newInstance(City city, int position) {
         DeleteCityDialog dialog = new DeleteCityDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable(CITY, city);

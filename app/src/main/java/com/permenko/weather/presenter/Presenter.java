@@ -7,32 +7,26 @@ import com.permenko.weather.util.DbHelper;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-//todo: do not use base presenter
+//todo: should move all this stuff to activity and pass to presenter (so we can use fake repo for tests without injection)
 public class Presenter {
 
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
-    private DefaultOpenWeatherRepository model;
+    private DefaultOpenWeatherRepository mRepository;
     private DbHelper dbHelper;
 
-    Presenter() {
-        model = new DefaultOpenWeatherRepository();
+    public Presenter() {
+        mRepository = new DefaultOpenWeatherRepository();
         dbHelper = new DbHelper();
-        model.addDbHelper(dbHelper);
+        mRepository.addDbHelper(dbHelper);
     }
 
-    OpenWeatherRepository getModel() {
-        return model;
+    public OpenWeatherRepository getRepository() {
+        return mRepository;
     }
 
-    void addSubscription(Subscription subscription) {
+    public void addSubscription(Subscription subscription) {
         mCompositeSubscription.add(subscription);
-    }
-
-    public void getWeather(String cityName) {
-    }
-
-    public void getGroupWeather() {
     }
 
     public void onStop() {

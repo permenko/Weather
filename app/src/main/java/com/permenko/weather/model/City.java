@@ -1,5 +1,7 @@
 package com.permenko.weather.model;
 
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class City implements Serializable {
         return this;
     }*/
 
+    @Nullable
     public ArrayList<Weather> getWeather() {
         return weather;
     }
