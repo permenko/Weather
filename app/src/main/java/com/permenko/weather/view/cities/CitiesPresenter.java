@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
 import com.permenko.weather.model.City;
-import com.permenko.weather.presenter.Presenter;
+import com.permenko.weather.repository.DefaultOpenWeatherRepository;
 import com.permenko.weather.view.cities.dialog.AddCityDialog;
 import com.permenko.weather.view.cities.dialog.CompareCityDialog;
 import com.permenko.weather.view.cities.dialog.DeleteCityDialog;
@@ -19,18 +19,22 @@ import java.util.concurrent.TimeoutException;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 //// FIXME: 9/30/16 recreating activity stops current call(request), find a way to restart it (or use loader)
-public class CitiesPresenter extends Presenter {
+public class CitiesPresenter {
 
     private final String BUNDLE_CITIES = "BUNDLE_CITIES";
 
     private CitiesView mCitiesView;
+    private DefaultOpenWeatherRepository mWeatherRepository;
+    private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
     private ArrayList<City> mCities;
 
-    public CitiesPresenter(CitiesView view) {
+    public CitiesPresenter(@NonNull CitiesView view, @NonNull DefaultOpenWeatherRepository repository) {
         this.mCitiesView = view;
+        this.mWeatherRepository = repository;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,8 +50,8 @@ public class CitiesPresenter extends Presenter {
         }
     }
 
-    public void getWeather(final String cityName) {
-        Subscription subscription = getRepository().getWeather(cityName)
+    public void getWeather(@NonNull final String cityName) {
+        Subscription subscription = mWeatherRepository.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mCitiesView.showLoading())
@@ -64,20 +68,20 @@ public class CitiesPresenter extends Presenter {
         addSubscription(subscription);
     }
 
-    public void addCity(City city) {
-        Subscription subscription = getRepository().addCity(city)
+    public void addCity(@NonNull City city) {
+        Subscription subscription = mWeatherRepository.addCity(city)
                 .subscribe(cities -> mCitiesView.addCityToAdapter(city), throwable -> mCitiesView.showMessage(R.string.error_already_added));
         addSubscription(subscription);
     }
 
-    public void deleteCity(int position, City city) {
-        Subscription subscription = getRepository().deleteCity(position, city)
+    public void deleteCity(int position, @NonNull City city) {
+        Subscription subscription = mWeatherRepository.deleteCity(position, city)
                 .subscribe(o -> mCitiesView.deleteCityFromAdapter(position), throwable -> mCitiesView.showMessage(R.string.error_unknown));
         addSubscription(subscription);
     }
 
     private void getGroupWeather() {
-        Subscription subscription = getRepository().getGroupWeather()
+        Subscription subscription = mWeatherRepository.getGroupWeather()
                 .doOnSubscribe(() -> mCitiesView.showLoading())
                 .doOnTerminate(() -> mCitiesView.hideLoading())
                 .map(this::save)
@@ -103,7 +107,7 @@ public class CitiesPresenter extends Presenter {
         mCitiesView.showDialog(DeleteCityDialog.newInstance(city, position));
     }
 
-    private int getMessageId(Throwable throwable) {
+    private int getMessageId(@NonNull Throwable throwable) {
         int errorId;
         if (throwable instanceof UnknownHostException) {
             errorId = R.string.error_no_internet_connection;
@@ -121,12 +125,22 @@ public class CitiesPresenter extends Presenter {
         return errorId;
     }
 
-    private ArrayList<City> save(ArrayList<City> cities) {
+    @NonNull
+    private ArrayList<City> save(@NonNull ArrayList<City> cities) {
         mCities = cities;
         return cities;
     }
 
-    public void onSaveInstanceState(Bundle outState) {
+    public void addSubscription(@NonNull Subscription subscription) {
+        mCompositeSubscription.add(subscription);
+    }
+
+    public void release() {
+        mCompositeSubscription.clear();
+        mWeatherRepository.release();
+    }
+
+    public void onSaveInstanceState(@Nullable Bundle outState) {
 
         if (outState == null) {
             return;

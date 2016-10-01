@@ -2,6 +2,7 @@ package com.permenko.weather.view.cities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.view.View;
 
 import com.permenko.weather.R;
 import com.permenko.weather.model.City;
+import com.permenko.weather.repository.DefaultOpenWeatherRepository;
+import com.permenko.weather.util.DbHelper;
 import com.permenko.weather.view.cities.dialog.AddCityDialog;
 import com.permenko.weather.view.cities.dialog.CompareCityDialog;
 import com.permenko.weather.view.cities.dialog.DeleteCityDialog;
@@ -43,7 +46,7 @@ public class CitiesActivity extends AppCompatActivity
     private CitiesAdapter mCitiesAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cities);
         ButterKnife.bind(this);
@@ -51,15 +54,17 @@ public class CitiesActivity extends AppCompatActivity
         initToolbar();
         //todo: move to initSomething, find a method name
         mCitiesRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        mCitiesPresenter = new CitiesPresenter(this, new DefaultOpenWeatherRepository(new DbHelper()));
+        mCitiesPresenter.init(savedInstanceState);
+
         mRefreshLayout.setOnRefreshListener(() -> {
             mCitiesPresenter.onRefresh();
         });
-        mCitiesPresenter = new CitiesPresenter(this);
-        mCitiesPresenter.init(savedInstanceState);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@Nullable Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mCitiesPresenter != null) {
             mCitiesPresenter.onSaveInstanceState(outState);
@@ -67,21 +72,21 @@ public class CitiesActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         if (mCitiesPresenter != null) {
-            mCitiesPresenter.onStop();
+            mCitiesPresenter.release();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_cities, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_city:
                 mCitiesPresenter.onMenuAddClick();

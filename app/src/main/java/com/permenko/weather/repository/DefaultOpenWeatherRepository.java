@@ -1,5 +1,7 @@
 package com.permenko.weather.repository;
 
+import android.support.annotation.NonNull;
+
 import com.permenko.weather.App;
 import com.permenko.weather.api.ApiFactory;
 import com.permenko.weather.api.WeatherService;
@@ -14,39 +16,44 @@ import rx.schedulers.Schedulers;
 
 public class DefaultOpenWeatherRepository implements OpenWeatherRepository {
 
-    private WeatherService apiInterface = ApiFactory.getWeatherService();
-    private DbHelper dbHelper;
+    private WeatherService mWeatherService = ApiFactory.getWeatherService();
+    private DbHelper mDbHelper;
 
-    public void addDbHelper(DbHelper dbHelper) {
-        this.dbHelper = dbHelper;
+    public DefaultOpenWeatherRepository(@NonNull DbHelper dbHelper) {
+        this.mDbHelper = dbHelper;
     }
 
+    public void release() {
+        mDbHelper.release();
+    }
+
+    @NonNull
     @Override
-    public Observable<City> getWeather(String cityName) {
-        return apiInterface.getWeather(cityName)
+    public Observable<City> getWeather(@NonNull String cityName) {
+        return mWeatherService.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private Observable<ArrayList<City>> cache(ArrayList<City> cities) {
-        return dbHelper.cache(cities);
+    @NonNull
+    private Observable<ArrayList<City>> cache(@NonNull ArrayList<City> cities) {
+        return mDbHelper.cache(cities);
     }
 
+    @NonNull
     private Observable<ArrayList<City>> getCached() {
-        return dbHelper.getCached();
+        return mDbHelper.getCached();
     }
 
+    @NonNull
     @Override
     public Observable<ArrayList<City>> getGroupWeather() {
-
-        return apiInterface.getGroupWeather(getIds())
+        return mWeatherService.getGroupWeather(getIds())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(cities -> {
                     //check the initial state
-                    if (App.isInitialState()) {
-                        App.markStateNotInitial();
-                    }
+                    if (App.isInitialState()) App.markStateNotInitial();
                     return cities;
                 })
                 .flatMap(cities -> Observable.just(cities.getCities()))
@@ -57,17 +64,20 @@ public class DefaultOpenWeatherRepository implements OpenWeatherRepository {
                 });
     }
 
+    @NonNull
     @Override
-    public Observable<ArrayList<City>> addCity(City city) {
-        return dbHelper.addCity(city);
+    public Observable<ArrayList<City>> addCity(@NonNull City city) {
+        return mDbHelper.addCity(city);
     }
 
+    @NonNull
     @Override
-    public Observable<ArrayList<City>> deleteCity(int position, City city) {
-        return dbHelper.deleteCity(city);
+    public Observable<ArrayList<City>> deleteCity(int position, @NonNull City city) {
+        return mDbHelper.deleteCity(city);
     }
 
+    @NonNull
     private String getIds() {
-        return dbHelper.getIds().map(list -> list.toString().replaceAll("[\\[\\]]", "")).toBlocking().first();
+        return mDbHelper.getIds().map(list -> list.toString().replaceAll("[\\[\\]]", "")).toBlocking().first();
     }
 }

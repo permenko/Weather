@@ -1,5 +1,7 @@
 package com.permenko.weather.util;
 
+import android.support.annotation.NonNull;
+
 import com.permenko.weather.App;
 import com.permenko.weather.model.City;
 import com.permenko.weather.model.realm.RealmCity;
@@ -26,11 +28,12 @@ public class DbHelper {
         mapper = new Mapper();
     }
 
-    public void onStop() {
+    public void release() {
         realm.close();
         mapper = null;
     }
 
+    @NonNull
     public Observable<List<Integer>> getIds() {
         if (isInitialState()) {
             return Observable.just(Utils.getInitialData());
@@ -42,11 +45,13 @@ public class DbHelper {
         }
     }
 
-    public Observable<ArrayList<City>> cache(ArrayList<City> cities) {
+    @NonNull
+    public Observable<ArrayList<City>> cache(@NonNull ArrayList<City> cities) {
         realm.executeTransaction(_realm -> _realm.copyToRealmOrUpdate(mapper.getRealmCities(cities)));
         return Observable.just(cities);
     }
 
+    @NonNull
     public Observable<ArrayList<City>> getCached() {
         RealmList<RealmCity> realmCities = new RealmList<>();
         //try to get cached data
@@ -54,7 +59,7 @@ public class DbHelper {
         return Observable.just(mapper.getCities(realmCities));
     }
 
-    private boolean contains(final City cityToCheck) {
+    private boolean contains(@NonNull final City cityToCheck) {
         return getCached()
                 .flatMap(Observable::from)
                 .filter(city -> cityToCheck.getId().equals(city.getId()))
@@ -64,14 +69,16 @@ public class DbHelper {
                 .first();
     }
 
-    public Observable<ArrayList<City>> addCity(City city) {
+    @NonNull
+    public Observable<ArrayList<City>> addCity(@NonNull City city) {
         if (contains(city)) return Observable.error(new IllegalArgumentException());
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         return cache(cities);
     }
 
-    public Observable<ArrayList<City>> deleteCity(City city) {
+    @NonNull
+    public Observable<ArrayList<City>> deleteCity(@NonNull City city) {
         realm.executeTransaction(_realm -> {
             RealmCity realmCity = _realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
             realmCity.deleteFromRealm();

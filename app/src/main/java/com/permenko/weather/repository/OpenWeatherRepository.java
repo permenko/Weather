@@ -1,5 +1,7 @@
 package com.permenko.weather.repository;
 
+import android.support.annotation.NonNull;
+
 import com.permenko.weather.model.City;
 
 import java.util.ArrayList;
@@ -8,12 +10,16 @@ import rx.Observable;
 
 public interface OpenWeatherRepository {
 
-    Observable<City> getWeather(String cityName);
+    @NonNull
+    Observable<City> getWeather(@NonNull String cityName);
 
+    @NonNull
     Observable<ArrayList<City>> getGroupWeather();
 
-    Observable<ArrayList<City>> addCity(City city);
+    @NonNull
+    Observable<ArrayList<City>> addCity(@NonNull City city);
 
-    Observable<ArrayList<City>> deleteCity(int position, City city);
+    @NonNull
+    Observable<ArrayList<City>> deleteCity(int position, @NonNull City city);
 
 }
