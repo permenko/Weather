@@ -3,6 +3,7 @@ package com.permenko.weather.view.cities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeoutException;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -52,19 +54,22 @@ public class CitiesPresenter {
 
     public void getWeather(@NonNull final String cityName) {
         Subscription subscription = mWeatherRepository.getWeather(cityName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mCitiesView.showLoading())
-                .doOnTerminate(() -> mCitiesView.hideLoading())
-                .doOnNext(city -> {
+                .doOnTerminate(() -> {
+                    Log.d("CitiesPresenter", "getWeather$doOnTerminate");
+                    mCitiesView.hideLoading();
+                }) // // FIXME: 10/1/16 not calling !
+                .subscribe(city -> {
+                    Log.d("CitiesPresenter", "getWeather$onNext");
                     if (!city.getName().toLowerCase().equals(cityName.toLowerCase().trim())) {
                         mCitiesView.showDialog(CompareCityDialog.newInstance(city));
                     } else {
                         addCity(city);
                     }
-                })
-                .doOnError(throwable -> mCitiesView.showMessage(getMessageId(throwable)))
-                .subscribe();
+                }, throwable -> {
+                    Log.d("CitiesPresenter", "getWeather$onError");
+                    mCitiesView.showMessage(getMessageId(throwable));
+                });
         addSubscription(subscription);
     }
 
