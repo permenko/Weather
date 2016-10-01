@@ -60,6 +60,9 @@ public class ApiFactory {
     private static OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(ApiKeyInterceptor.create())
+                .addInterceptor(LoggingInterceptor.create())
+                .addInterceptor(LanguageInterceptor.create())
+                .addInterceptor(UnitsInterceptor.create())
                 .build();
     }
 

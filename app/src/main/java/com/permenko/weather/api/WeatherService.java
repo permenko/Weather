@@ -10,12 +10,8 @@ import rx.Observable;
 public interface WeatherService {
 
     @GET("weather")
-    Observable<City> getWeather(@Query("lang") String language,
-                                @Query("units") String units,
-                                @Query("q") String cityName);
+    Observable<City> getWeather(@Query("q") String cityName);
 
     @GET("group")
-    Observable<Cities> getGroupWeather(@Query("lang") String language,
-                                       @Query("units") String units,
-                                       @Query("id") String ids);
+    Observable<Cities> getGroupWeather(@Query("id") String ids);
 }
