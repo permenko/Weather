@@ -18,14 +18,14 @@ import com.permenko.weather.R;
 
 public class AddCityDialog extends DialogFragment {
 
-    private ClickListener listener;
+    private ClickListener mClickListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try {
-            listener = (ClickListener) context;
+            mClickListener = (ClickListener) context;
         } catch (ClassCastException e) {
             //Reminder for the developer
             throw new ClassCastException(context.toString()
@@ -43,7 +43,7 @@ public class AddCityDialog extends DialogFragment {
                 .setPositiveButton(R.string.action_add, (dialog, i) -> {
                     final AlertDialog alertDialog = (AlertDialog) dialog;
                     final String cityName = ((EditText) alertDialog.findViewById(R.id.city_name_input)).getText().toString();
-                    listener.getWeather(cityName);
+                    mClickListener.onDialogAddPositiveClick(cityName);
                 })
                 .setNegativeButton(R.string.action_cancel, (dialog, i) -> {
                     hideKeyboard();
@@ -75,7 +75,7 @@ public class AddCityDialog extends DialogFragment {
     }
 
     public interface ClickListener {
-        void getWeather(String cityName);
+        void onDialogAddPositiveClick(String cityName);
     }
 
     @Override

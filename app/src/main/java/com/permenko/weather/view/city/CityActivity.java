@@ -50,7 +50,7 @@ public class CityActivity extends AppCompatActivity {
 
     private void initToolbar(@NonNull String title) {
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle(title);
+        mToolbar.setTitle(title); //// FIXME: 10/3/16 
         mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
     }

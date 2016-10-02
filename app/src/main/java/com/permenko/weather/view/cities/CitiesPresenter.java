@@ -49,6 +49,19 @@ public class CitiesPresenter {
         }
     }
 
+    private void getGroupWeather() {
+        Subscription subscription = mWeatherRepository.getGroupWeather()
+                .doOnSubscribe(() -> mCitiesView.showLoading())
+                .doOnTerminate(() -> {
+                    //actually we don't need both of them, but we cannot know which one is needed
+                    mCitiesView.hideLoading();
+                    mCitiesView.hideRefreshing();
+                })
+                .map(this::save)
+                .subscribe(cityList -> mCitiesView.addCitiesToAdapter(cityList));
+        addSubscription(subscription);
+    }
+
     public void getWeather(@NonNull final String cityName) {
         Subscription subscription = mWeatherRepository.getWeather(cityName)
                 .doOnSubscribe(() -> mCitiesView.showLoading())
@@ -72,15 +85,6 @@ public class CitiesPresenter {
     public void deleteCity(int position, @NonNull City city) {
         Subscription subscription = mWeatherRepository.deleteCity(position, city)
                 .subscribe(o -> mCitiesView.deleteCityFromAdapter(position), throwable -> mCitiesView.showMessage(R.string.error_unknown));
-        addSubscription(subscription);
-    }
-
-    private void getGroupWeather() {
-        Subscription subscription = mWeatherRepository.getGroupWeather()
-                .doOnSubscribe(() -> mCitiesView.showLoading())
-                .doOnTerminate(() -> mCitiesView.hideLoading())
-                .map(this::save)
-                .subscribe(cityList -> mCitiesView.addCitiesToAdapter(cityList));
         addSubscription(subscription);
     }
 

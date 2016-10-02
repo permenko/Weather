@@ -15,14 +15,14 @@ public class DeleteCityDialog extends DialogFragment {
     private static final String POSITION = "POSITION";
     private static final String CITY = "CITY";
 
-    private ClickListener listener;
+    private ClickListener mClickListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try {
-            listener = (ClickListener) context;
+            mClickListener = (ClickListener) context;
         } catch (ClassCastException e) {
             //Reminder for the developer
             throw new ClassCastException(context.toString()
@@ -47,13 +47,13 @@ public class DeleteCityDialog extends DialogFragment {
         final City city = (City) getArguments().getSerializable(CITY);
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.city_delete_title)
-                .setPositiveButton(R.string.action_delete, (dialog, i) -> listener.deleteCity(position, city))
+                .setPositiveButton(R.string.action_delete, (dialog, i) -> mClickListener.onDialogDeletePositiveClick(position, city))
                 .setNegativeButton(R.string.action_cancel, (dialog, i) -> dialog.dismiss())
                 .create();
     }
 
     public interface ClickListener {
-        void deleteCity(int position, City city);
+        void onDialogDeletePositiveClick(int position, City city);
     }
 
 }

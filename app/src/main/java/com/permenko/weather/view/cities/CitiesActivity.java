@@ -102,19 +102,10 @@ public class CitiesActivity extends AppCompatActivity
     }
 
     @Override
-    public void openCityScreen(@NonNull City city) {
-        CityActivity.start(this, city);
-    }
-
-    @Override
-    public void showDialog(@NonNull DialogFragment dialog) {
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getSimpleName());
-    }
-
-    //todo: move logic to presenter (maybe should use small presenter for each dialog)
-    @Override
-    public void getWeather(@NonNull String cityName) {
-        mCitiesPresenter.getWeather(cityName);
+    public void addCitiesToAdapter(@NonNull ArrayList<City> cities) {
+        mCitiesAdapter = new CitiesAdapter(cities, this);
+        mCitiesRecycler.setAdapter(mCitiesAdapter);
+        mCitiesRecycler.invalidate();
     }
 
     @Override
@@ -127,24 +118,29 @@ public class CitiesActivity extends AppCompatActivity
         mCitiesAdapter.deleteCity(position);
     }
 
-    //todo: move logic to presenter (maybe should use small presenter for each dialog)
     @Override
-    public void addCity(@NonNull City city) {
+    public void onItemClick(@NonNull City city) {
+        mCitiesPresenter.onItemClick(city);
+    }
+
+    @Override
+    public void onItemLongClick(@NonNull City city, int position) {
+        mCitiesPresenter.onItemLongClick(city, position);
+    }
+
+    @Override
+    public void onDialogAddPositiveClick(@NonNull String cityName) {
+        mCitiesPresenter.getWeather(cityName);
+    }
+
+    @Override
+    public void onDialogComparePositiveClick(@NonNull City city) {
         mCitiesPresenter.addCity(city);
     }
 
     @Override
-    public void showMessage(int messageId) {
-        showDialog(ErrorDialog.newInstance(messageId));
-    }
-
-    @Override
-    public void addCitiesToAdapter(@NonNull ArrayList<City> cities) {
-        if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
-        //this.cities = cities;
-        mCitiesAdapter = new CitiesAdapter(cities, this);
-        mCitiesRecycler.setAdapter(mCitiesAdapter);
-        mCitiesRecycler.invalidate();
+    public void onDialogDeletePositiveClick(int position, @NonNull City city) {
+        mCitiesPresenter.deleteCity(position, city);
     }
 
     @Override
@@ -157,19 +153,28 @@ public class CitiesActivity extends AppCompatActivity
         mLoadingView.setVisibility(View.GONE);
     }
 
-    //todo: move logic to presenter (maybe should use small presenter for each dialog)
     @Override
-    public void deleteCity(int position, @NonNull City city) {
-        mCitiesPresenter.deleteCity(position, city);
+    public void showRefreshing() {
+        if (!mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onItemClick(@NonNull City city) {
-        mCitiesPresenter.onItemClick(city);
+    public void hideRefreshing() {
+        if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void onItemLongClick(@NonNull City city, int position) {
-        mCitiesPresenter.onItemLongClick(city, position);
+    public void showDialog(@NonNull DialogFragment dialog) {
+        dialog.show(getSupportFragmentManager(), dialog.getClass().getSimpleName());
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+        showDialog(ErrorDialog.newInstance(messageId));
+    }
+
+    @Override
+    public void openCityScreen(@NonNull City city) {
+        CityActivity.start(this, city);
     }
 }

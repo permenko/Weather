@@ -15,14 +15,14 @@ public class CompareCityDialog extends DialogFragment {
 
     private static final String CITY = "CITY";
 
-    private ClickListener listener;
+    private ClickListener mClickListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try {
-            listener = (ClickListener) context;
+            mClickListener = (ClickListener) context;
         } catch (ClassCastException e) {
             //Reminder for the developer
             throw new ClassCastException(context.toString()
@@ -46,13 +46,13 @@ public class CompareCityDialog extends DialogFragment {
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.error_city_not_found_title)
                 .setMessage(getString(R.string.error_city_not_found_text, city.getName()))
-                .setPositiveButton(R.string.action_add, (dialog, i) -> listener.addCity(city))
+                .setPositiveButton(R.string.action_add, (dialog, i) -> mClickListener.onDialogComparePositiveClick(city))
                 .setNegativeButton(R.string.action_cancel, (dialog, i) -> dialog.dismiss())
                 .create();
     }
 
     public interface ClickListener {
-        void addCity(City city);
+        void onDialogComparePositiveClick(City city);
     }
 
 }

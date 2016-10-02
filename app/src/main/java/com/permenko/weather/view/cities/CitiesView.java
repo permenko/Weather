@@ -25,4 +25,8 @@ public interface CitiesView {
 
     void hideLoading();
 
+    void showRefreshing();
+
+    void hideRefreshing();
+
 }
