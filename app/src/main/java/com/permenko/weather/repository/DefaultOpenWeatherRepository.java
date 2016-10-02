@@ -32,7 +32,16 @@ public class DefaultOpenWeatherRepository implements OpenWeatherRepository {
     public Observable<City> getWeather(@NonNull String cityName) {
         return mWeatherService.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(city -> {
+                    if (city == null || city.getName() == null) {
+                        //means that we don't found the city
+                        //exception handled into presenter
+                        throw new NullPointerException();
+                    } else {
+                        return city;
+                    }
+                });
     }
 
     @NonNull

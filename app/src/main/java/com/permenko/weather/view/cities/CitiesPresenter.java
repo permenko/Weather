@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 //// FIXME: 9/30/16 recreating activity stops current call(request), find a way to restart it (or use loader)
@@ -55,21 +52,14 @@ public class CitiesPresenter {
     public void getWeather(@NonNull final String cityName) {
         Subscription subscription = mWeatherRepository.getWeather(cityName)
                 .doOnSubscribe(() -> mCitiesView.showLoading())
-                .doOnTerminate(() -> {
-                    Log.d("CitiesPresenter", "getWeather$doOnTerminate");
-                    mCitiesView.hideLoading();
-                }) // // FIXME: 10/1/16 not calling !
+                .doOnTerminate(() -> mCitiesView.hideLoading())
                 .subscribe(city -> {
-                    Log.d("CitiesPresenter", "getWeather$onNext");
                     if (!city.getName().toLowerCase().equals(cityName.toLowerCase().trim())) {
                         mCitiesView.showDialog(CompareCityDialog.newInstance(city));
                     } else {
                         addCity(city);
                     }
-                }, throwable -> {
-                    Log.d("CitiesPresenter", "getWeather$onError");
-                    mCitiesView.showMessage(getMessageId(throwable));
-                });
+                }, throwable -> mCitiesView.showMessage(getMessageId(throwable)));
         addSubscription(subscription);
     }
 
