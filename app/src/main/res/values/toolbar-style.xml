@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ToolBarStyle" parent="Theme.AppCompat.Light">
+    <style name="ToolBarStyle" parent="ThemeOverlay.AppCompat.Light">
         <item name="titleTextAppearance">@style/ToolBarStyle.Text</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_height">@dimen/toolbar_height</item>
