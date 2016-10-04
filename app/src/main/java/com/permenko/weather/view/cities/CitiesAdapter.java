@@ -10,15 +10,16 @@ import com.permenko.weather.R;
 import com.permenko.weather.model.City;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<City> mCities;
+    private List<City> mCities;
 
     private final OnItemClickListener mOnItemClickListener;
 
-    public CitiesAdapter(ArrayList<City> objects, @NonNull OnItemClickListener onItemClickListener) {
-        this.mCities = objects;
+    public CitiesAdapter(@NonNull OnItemClickListener onItemClickListener) {
+        mCities = new ArrayList<>();
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -33,6 +34,11 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CitiesViewHolder holder = (CitiesViewHolder) viewHolder;
         City city = getCity(holder.getAdapterPosition());
         holder.bind(city, holder.getAdapterPosition(), mOnItemClickListener);
+    }
+
+    public void addCities(@NonNull List<City> cities) {
+        mCities.addAll(cities);
+        notifyDataSetChanged();
     }
 
     private City getCity(int position) {

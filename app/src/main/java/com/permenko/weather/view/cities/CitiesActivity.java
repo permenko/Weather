@@ -52,8 +52,7 @@ public class CitiesActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         initToolbar();
-        //todo: move to initSomething, find a method name
-        mCitiesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        initRecycler();
 
         mCitiesPresenter = new CitiesPresenter(this, new DefaultOpenWeatherRepository(new DbHelper()));
         mCitiesPresenter.init(savedInstanceState);
@@ -101,11 +100,15 @@ public class CitiesActivity extends AppCompatActivity
         mToolbar.setTitle(R.string.app_name);
     }
 
+    private void initRecycler() {
+        mCitiesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mCitiesAdapter = new CitiesAdapter(this);
+        mCitiesRecycler.setAdapter(mCitiesAdapter);
+    }
+
     @Override
     public void addCitiesToAdapter(@NonNull ArrayList<City> cities) {
-        mCitiesAdapter = new CitiesAdapter(cities, this);
-        mCitiesRecycler.setAdapter(mCitiesAdapter);
-        mCitiesRecycler.invalidate();
+        mCitiesAdapter.addCities(cities);
     }
 
     @Override
