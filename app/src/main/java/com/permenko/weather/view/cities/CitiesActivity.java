@@ -29,14 +29,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 //todo: add @NonNull, @Nullable to everywhere
-public class CitiesActivity extends AppCompatActivity
-        implements DeleteCityDialog.ClickListener, AddCityDialog.ClickListener, CompareCityDialog.ClickListener, CitiesAdapter.OnItemClickListener, CitiesView {
+public class CitiesActivity extends AppCompatActivity implements
+        CitiesView,
+        SwipeRefreshLayout.OnRefreshListener,
+        CitiesAdapter.OnItemClickListener,
+        DeleteCityDialog.ClickListener,
+        AddCityDialog.ClickListener,
+        CompareCityDialog.ClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.refresh)
-    //todo: add colors
-            SwipeRefreshLayout mRefreshLayout;
+    SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.cities_list)
     RecyclerView mCitiesRecycler;
     @BindView(R.id.progress_bar)
@@ -53,13 +57,10 @@ public class CitiesActivity extends AppCompatActivity
 
         initToolbar();
         initRecycler();
+        initSwipeRefresh();
 
         mCitiesPresenter = new CitiesPresenter(this, new DefaultOpenWeatherRepository(new DbHelper()));
         mCitiesPresenter.init(savedInstanceState);
-
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mCitiesPresenter.onRefresh();
-        });
     }
 
     @Override
@@ -106,6 +107,15 @@ public class CitiesActivity extends AppCompatActivity
         mCitiesRecycler.setAdapter(mCitiesAdapter);
     }
 
+    private void initSwipeRefresh() {
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
     @Override
     public void addCitiesToAdapter(@NonNull ArrayList<City> cities) {
         mCitiesAdapter.addCities(cities);
@@ -119,6 +129,11 @@ public class CitiesActivity extends AppCompatActivity
     @Override
     public void deleteCityFromAdapter(int position) {
         mCitiesAdapter.deleteCity(position);
+    }
+
+    @Override
+    public void onRefresh() {
+        mCitiesPresenter.onRefresh();
     }
 
     @Override
