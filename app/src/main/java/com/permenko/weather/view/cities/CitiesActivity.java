@@ -22,6 +22,7 @@ import com.permenko.weather.view.cities.dialog.CompareCityDialog;
 import com.permenko.weather.view.cities.dialog.DeleteCityDialog;
 import com.permenko.weather.view.cities.dialog.ErrorDialog;
 import com.permenko.weather.view.city.CityActivity;
+import com.permenko.weather.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -102,6 +103,7 @@ public class CitiesActivity extends AppCompatActivity implements
 
     private void initRecycler() {
         mCitiesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mCitiesRecycler.addItemDecoration(new DividerItemDecoration(this));
         mCitiesAdapter = new CitiesAdapter(this);
         mCitiesRecycler.setAdapter(mCitiesAdapter);
     }

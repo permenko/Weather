@@ -30,13 +30,4 @@
         android:paddingLeft="@dimen/screen_margin"
         android:paddingRight="@dimen/screen_margin"/>
 
-    <!-- todo: use default divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/diving_line_height"
-        android:layout_marginLeft="@dimen/screen_margin"
-        android:layout_marginRight="@dimen/screen_margin"
-        android:layout_gravity="bottom"
-        android:background="@color/gray"/>
-
 </FrameLayout>
