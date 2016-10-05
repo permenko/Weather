@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-//todo: add @NonNull, @Nullable to everywhere
 public class CitiesActivity extends AppCompatActivity implements
         CitiesView,
         SwipeRefreshLayout.OnRefreshListener,
