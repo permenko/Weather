@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
 import com.permenko.weather.R;
@@ -18,7 +19,7 @@ public class DeleteCityDialog extends DialogFragment {
     private ClickListener mClickListener;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         try {
@@ -31,7 +32,7 @@ public class DeleteCityDialog extends DialogFragment {
 
     }
 
-    public static DeleteCityDialog newInstance(City city, int position) {
+    public static DeleteCityDialog newInstance(@NonNull City city, int position) {
         DeleteCityDialog dialog = new DeleteCityDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable(CITY, city);
@@ -42,7 +43,7 @@ public class DeleteCityDialog extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final int position = getArguments().getInt(POSITION);
         final City city = (City) getArguments().getSerializable(CITY);
         return new AlertDialog.Builder(getContext())

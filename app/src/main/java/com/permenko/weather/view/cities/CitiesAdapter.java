@@ -24,7 +24,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_city, viewGroup, false);
         return new CitiesViewHolder(view);
     }
@@ -50,7 +50,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyItemRemoved(position);
     }
 
-    public void addCity(City city) {
+    public void addCity(@NonNull City city) {
         mCities.add(city);
         notifyItemInserted(mCities.size());
     }

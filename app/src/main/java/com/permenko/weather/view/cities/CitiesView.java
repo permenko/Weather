@@ -11,13 +11,13 @@ public interface CitiesView {
 
     void openCityScreen(@NonNull City city);
 
-    void addCityToAdapter(City city);
+    void addCityToAdapter(@NonNull City city);
 
     void deleteCityFromAdapter(int position); //delete city by position
 
-    void addCitiesToAdapter(ArrayList<City> cities);
+    void addCitiesToAdapter(@NonNull ArrayList<City> cities);
 
-    void showDialog(DialogFragment dialog);
+    void showDialog(@NonNull DialogFragment dialog);
 
     void showMessage(int messageId);
 

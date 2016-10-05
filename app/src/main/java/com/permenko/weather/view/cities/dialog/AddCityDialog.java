@@ -21,7 +21,7 @@ public class AddCityDialog extends DialogFragment {
     private ClickListener mClickListener;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         try {
@@ -36,7 +36,7 @@ public class AddCityDialog extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return new AlertDialog.Builder(getContext())
                 .setView(R.layout.dialog_add_city)
                 .setTitle(R.string.add_city)
@@ -54,7 +54,7 @@ public class AddCityDialog extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         showKeyboard();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
