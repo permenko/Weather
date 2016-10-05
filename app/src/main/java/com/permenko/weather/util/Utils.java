@@ -11,7 +11,7 @@ import java.util.Locale;
 //todo: rename
 public class Utils {
 
-    //looks useless todo: check why it's here
+    //todo: add something like "updated 10 min ago" for each city
     public static String getDate() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
