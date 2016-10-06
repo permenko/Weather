@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import rx.Observable;
 
-public interface OpenWeatherRepository {
+public interface IWeatherRepository {
 
     @NonNull
     Observable<City> getWeather(@NonNull String cityName);

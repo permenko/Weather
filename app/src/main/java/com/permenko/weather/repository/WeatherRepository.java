@@ -14,12 +14,12 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DefaultOpenWeatherRepository implements OpenWeatherRepository {
+public class WeatherRepository implements IWeatherRepository {
 
     private WeatherService mWeatherService = ApiFactory.getWeatherService();
     private DbHelper mDbHelper;
 
-    public DefaultOpenWeatherRepository(@NonNull DbHelper dbHelper) {
+    public WeatherRepository(@NonNull DbHelper dbHelper) {
         this.mDbHelper = dbHelper;
     }
 
