@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class App extends Application {
 
@@ -15,10 +14,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RealmConfiguration config = new RealmConfiguration.Builder(this)
-                //.deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(config);
+        Realm.init(this);
         //init defaultSharedPreferences
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
