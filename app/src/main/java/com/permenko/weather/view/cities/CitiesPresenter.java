@@ -41,10 +41,9 @@ public class CitiesPresenter {
             getGroupWeather();
         } else {
             mCities = ((ArrayList<City>) savedInstanceState.getSerializable(BUNDLE_CITIES));
-        }
-
-        if (mCities != null) {
-            this.mCitiesView.addCitiesToAdapter(mCities);
+            if (mCities != null) {
+                this.mCitiesView.addCitiesToAdapter(mCities);
+            }
         }
     }
 
