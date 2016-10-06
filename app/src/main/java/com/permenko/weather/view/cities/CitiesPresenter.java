@@ -3,12 +3,11 @@ package com.permenko.weather.view.cities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
 import com.permenko.weather.model.City;
-import com.permenko.weather.repository.DefaultOpenWeatherRepository;
+import com.permenko.weather.repository.WeatherRepository;
 import com.permenko.weather.view.cities.dialog.AddCityDialog;
 import com.permenko.weather.view.cities.dialog.CompareCityDialog;
 import com.permenko.weather.view.cities.dialog.DeleteCityDialog;
@@ -26,12 +25,12 @@ public class CitiesPresenter {
     private final String BUNDLE_CITIES = "BUNDLE_CITIES";
 
     private CitiesView mCitiesView;
-    private DefaultOpenWeatherRepository mWeatherRepository;
+    private WeatherRepository mWeatherRepository;
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
     private ArrayList<City> mCities;
 
-    public CitiesPresenter(@NonNull CitiesView view, @NonNull DefaultOpenWeatherRepository repository) {
+    public CitiesPresenter(@NonNull CitiesView view, @NonNull WeatherRepository repository) {
         this.mCitiesView = view;
         this.mWeatherRepository = repository;
     }

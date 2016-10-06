@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.permenko.weather.R;
 import com.permenko.weather.model.City;
-import com.permenko.weather.repository.DefaultOpenWeatherRepository;
+import com.permenko.weather.repository.WeatherRepository;
 import com.permenko.weather.util.DbHelper;
 import com.permenko.weather.view.cities.dialog.AddCityDialog;
 import com.permenko.weather.view.cities.dialog.CompareCityDialog;
@@ -59,7 +59,7 @@ public class CitiesActivity extends AppCompatActivity implements
         initRecycler();
         initSwipeRefresh();
 
-        mCitiesPresenter = new CitiesPresenter(this, new DefaultOpenWeatherRepository(new DbHelper()));
+        mCitiesPresenter = new CitiesPresenter(this, new WeatherRepository(new DbHelper()));
         mCitiesPresenter.init(savedInstanceState);
     }
 
