@@ -5,7 +5,7 @@ import android.support.v4.app.DialogFragment;
 
 import com.permenko.weather.model.City;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CitiesView {
 
@@ -15,7 +15,7 @@ public interface CitiesView {
 
     void deleteCityFromAdapter(int position); //delete city by position
 
-    void addCitiesToAdapter(@NonNull ArrayList<City> cities);
+    void addCitiesToAdapter(@NonNull List<City> cities);
 
     void showDialog(@NonNull DialogFragment dialog);
 

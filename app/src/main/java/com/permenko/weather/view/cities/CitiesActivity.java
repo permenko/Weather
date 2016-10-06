@@ -24,7 +24,7 @@ import com.permenko.weather.view.cities.dialog.ErrorDialog;
 import com.permenko.weather.view.city.CityActivity;
 import com.permenko.weather.widget.DividerItemDecoration;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,7 +118,7 @@ public class CitiesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void addCitiesToAdapter(@NonNull ArrayList<City> cities) {
+    public void addCitiesToAdapter(@NonNull List<City> cities) {
         mCitiesAdapter.addCities(cities);
     }
 
