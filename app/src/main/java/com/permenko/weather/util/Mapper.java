@@ -24,18 +24,24 @@ public class Mapper {
         ArrayList<City> cities = new ArrayList<>();
         //copy realmCities to cities
         for (int i = 0; i < realmCities.size(); ++i) {
-            RealmCity realmCity = realmCities.get(i);
-            City city = new City();
-
-            city.setMain(getMain(realmCity.getMain()));
-            city.setId(realmCity.getId());
-            city.setName(realmCity.getName());
-            city.setWeather(getWeather(realmCity.getWeather()));
-            city.setWind(getWind(realmCity.getWind()));
-
-            cities.add(i, city);
+            cities.add(i, getCity(realmCities.get(i)));
         }
         return cities;
+    }
+
+    public City getCity(RealmCity realmCity) {
+        if (realmCity == null) {
+            return new City();
+        }
+        City city = new City();
+
+        city.setMain(getMain(realmCity.getMain()));
+        city.setId(realmCity.getId());
+        city.setName(realmCity.getName());
+        city.setWeather(getWeather(realmCity.getWeather()));
+        city.setWind(getWind(realmCity.getWind()));
+
+        return city;
     }
 
     public RealmList<RealmCity> getRealmCities(ArrayList<City> cities) {
@@ -46,18 +52,24 @@ public class Mapper {
         RealmList<RealmCity> realmCities = new RealmList<>();
         //copy cities to realmCities
         for (int i = 0; i < cities.size(); ++i) {
-            City city = cities.get(i);
-            RealmCity realmCity = new RealmCity();
-
-            realmCity.setMain(getRealmMain(city.getMain()));
-            realmCity.setId(city.getId());
-            realmCity.setName(city.getName());
-            realmCity.setWeather(getRealmWeather(city.getWeather()));
-            realmCity.setWind(getRealmWind(city.getWind()));
-
-            realmCities.add(i, realmCity);
+            realmCities.add(i, getRealmCity(cities.get(i)));
         }
         return realmCities;
+    }
+
+    public RealmCity getRealmCity(City city) {
+        if (city == null) {
+            return new RealmCity();
+        }
+        RealmCity realmCity = new RealmCity();
+
+        realmCity.setMain(getRealmMain(city.getMain()));
+        realmCity.setId(city.getId());
+        realmCity.setName(city.getName());
+        realmCity.setWeather(getRealmWeather(city.getWeather()));
+        realmCity.setWind(getRealmWind(city.getWind()));
+
+        return realmCity;
     }
 
     private Main getMain(RealmMain realmMain) {

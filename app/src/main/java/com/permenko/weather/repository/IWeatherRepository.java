@@ -17,9 +17,9 @@ public interface IWeatherRepository {
     Observable<ArrayList<City>> getGroupWeather();
 
     @NonNull
-    Observable<ArrayList<City>> addCity(@NonNull City city);
+    Observable<City> addCity(@NonNull City city);
 
     @NonNull
-    Observable<ArrayList<City>> deleteCity(int position, @NonNull City city);
+    Observable<Void> deleteCity(int position, @NonNull City city);
 
 }

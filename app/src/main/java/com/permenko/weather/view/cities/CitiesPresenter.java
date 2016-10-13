@@ -73,13 +73,16 @@ public class CitiesPresenter {
 
     public void addCity(@NonNull City city) {
         Subscription subscription = mWeatherRepository.addCity(city)
-                .subscribe(cities -> mCitiesView.addCityToAdapter(city), throwable -> mCitiesView.showMessage(R.string.error_already_added));
+                .subscribe(_city -> mCitiesView.addCityToAdapter(_city), throwable -> mCitiesView.showMessage(R.string.error_already_added));
         addSubscription(subscription);
     }
 
     public void deleteCity(int position, @NonNull City city) {
         Subscription subscription = mWeatherRepository.deleteCity(position, city)
-                .subscribe(o -> mCitiesView.deleteCityFromAdapter(position), throwable -> mCitiesView.showMessage(R.string.error_unknown));
+                .subscribe(
+                        aVoid -> {},
+                        throwable -> mCitiesView.showMessage(R.string.error_unknown),
+                        () -> mCitiesView.deleteCityFromAdapter(position));
         addSubscription(subscription);
     }
 

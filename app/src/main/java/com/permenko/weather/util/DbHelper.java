@@ -20,17 +20,17 @@ import rx.Observable;
  */
 public class DbHelper {
 
-    private Realm realm;
-    private Mapper mapper = null;
+    private Realm mRealm;
+    private Mapper mMapper = null;
 
     public DbHelper() {
-        realm = Realm.getDefaultInstance();
-        mapper = new Mapper();
+        mRealm = Realm.getDefaultInstance();
+        mMapper = new Mapper();
     }
 
     public void release() {
-        realm.close();
-        mapper = null;
+        mRealm.close();
+        mMapper = null;
     }
 
     @NonNull
@@ -47,16 +47,22 @@ public class DbHelper {
 
     @NonNull
     public Observable<ArrayList<City>> cache(@NonNull ArrayList<City> cities) {
-        realm.executeTransaction(_realm -> _realm.copyToRealmOrUpdate(mapper.getRealmCities(cities)));
+        mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(mMapper.getRealmCities(cities)));
         return Observable.just(cities);
+    }
+
+    @NonNull
+    public Observable<City> cache(@NonNull City city) {
+        mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(mMapper.getRealmCity(city)));
+        return Observable.just(city);
     }
 
     @NonNull
     public Observable<ArrayList<City>> getCached() {
         RealmList<RealmCity> realmCities = new RealmList<>();
         //try to get cached data
-        realmCities.addAll(realm.where(RealmCity.class).findAll());
-        return Observable.just(mapper.getCities(realmCities));
+        realmCities.addAll(mRealm.where(RealmCity.class).findAll());
+        return Observable.just(mMapper.getCities(realmCities));
     }
 
     private boolean contains(@NonNull final City cityToCheck) {
@@ -70,21 +76,19 @@ public class DbHelper {
     }
 
     @NonNull
-    public Observable<ArrayList<City>> addCity(@NonNull City city) {
+    public Observable<City> addCity(@NonNull City city) {
         if (contains(city)) return Observable.error(new IllegalArgumentException());
-        ArrayList<City> cities = new ArrayList<>();
-        cities.add(city);
-        return cache(cities);
+        return cache(city);
     }
 
     @NonNull
-    public Observable<ArrayList<City>> deleteCity(@NonNull City city) {
-        realm.executeTransaction(_realm -> {
-            RealmCity realmCity = _realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
+    public Observable<Void> deleteCity(@NonNull City city) {
+        mRealm.executeTransaction(realm -> {
+            RealmCity realmCity = realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
             realmCity.deleteFromRealm();
         });
 
-        return getCached();
+        return Observable.empty();
     }
 
     private boolean isInitialState() {
