@@ -17,7 +17,11 @@ public interface CitiesView {
 
     void addCitiesToAdapter(@NonNull List<City> cities);
 
-    void showDialog(@NonNull DialogFragment dialog);
+    void showCompareCityDialog(@NonNull City city);
+
+    void showAddCityDialog();
+
+    void showDeleteCityDialog(@NonNull City city, int position);
 
     void showMessage(int messageId);
 

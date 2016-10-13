@@ -182,9 +182,23 @@ public class CitiesActivity extends AppCompatActivity implements
         if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void showDialog(@NonNull DialogFragment dialog) {
+    private void showDialog(@NonNull DialogFragment dialog) {
         dialog.show(getSupportFragmentManager(), dialog.getClass().getSimpleName());
+    }
+
+    @Override
+    public void showCompareCityDialog(@NonNull City city) {
+        showDialog(CompareCityDialog.newInstance(city));
+    }
+
+    @Override
+    public void showAddCityDialog() {
+        showDialog(new AddCityDialog());
+    }
+
+    @Override
+    public void showDeleteCityDialog(@NonNull City city, int position) {
+        showDialog(DeleteCityDialog.newInstance(city, position));
     }
 
     @Override

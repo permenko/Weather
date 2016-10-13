@@ -8,9 +8,6 @@ import com.google.gson.JsonSyntaxException;
 import com.permenko.weather.R;
 import com.permenko.weather.model.City;
 import com.permenko.weather.repository.WeatherRepository;
-import com.permenko.weather.view.cities.dialog.AddCityDialog;
-import com.permenko.weather.view.cities.dialog.CompareCityDialog;
-import com.permenko.weather.view.cities.dialog.DeleteCityDialog;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -66,7 +63,7 @@ public class CitiesPresenter {
                 .doOnTerminate(() -> mCitiesView.hideLoading())
                 .subscribe(city -> {
                     if (!city.getName().toLowerCase().equals(cityName.toLowerCase().trim())) {
-                        mCitiesView.showDialog(CompareCityDialog.newInstance(city));
+                        mCitiesView.showCompareCityDialog(city);
                     } else {
                         addCity(city);
                     }
@@ -93,7 +90,7 @@ public class CitiesPresenter {
     }
 
     public void onMenuAddClick() {
-        mCitiesView.showDialog(new AddCityDialog());
+        mCitiesView.showAddCityDialog();
     }
 
     public void onItemClick(@NonNull City city) {
@@ -101,7 +98,7 @@ public class CitiesPresenter {
     }
 
     public void onItemLongClick(@NonNull City city, int position) {
-        mCitiesView.showDialog(DeleteCityDialog.newInstance(city, position));
+        mCitiesView.showDeleteCityDialog(city, position);
     }
 
     private int getMessageId(@NonNull Throwable throwable) {
