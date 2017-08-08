@@ -81,13 +81,13 @@ public class DbHelper {
     }
 
     @NonNull
-    public Observable<Void> deleteCity(@NonNull City city) {
+    public Observable<List<City>> deleteCity(@NonNull City city) {
         mRealm.executeTransaction(realm -> {
             RealmCity realmCity = realm.where(RealmCity.class).equalTo("id", city.getId()).findFirst();
             realmCity.deleteFromRealm();
         });
 
-        return Observable.empty();
+        return getCached();
     }
 
     private boolean isInitialState() {

@@ -128,13 +128,8 @@ public class CitiesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void deleteCityFromAdapter(int position) {
-        mCitiesAdapter.deleteCity(position);
-    }
-
-    @Override
     public void onRefresh() {
-        mCitiesPresenter.onRefresh();
+        mCitiesPresenter.onRefreshClick();
     }
 
     @Override
@@ -143,8 +138,8 @@ public class CitiesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onItemLongClick(@NonNull City city, int position) {
-        mCitiesPresenter.onItemLongClick(city, position);
+    public void onItemLongClick(@NonNull City city) {
+        mCitiesPresenter.onItemLongClick(city);
     }
 
     @Override
@@ -154,12 +149,12 @@ public class CitiesActivity extends AppCompatActivity implements
 
     @Override
     public void onDialogComparePositiveClick(@NonNull City city) {
-        mCitiesPresenter.addCity(city);
+        mCitiesPresenter.onAddClick(city);
     }
 
     @Override
-    public void onDialogDeletePositiveClick(int position, @NonNull City city) {
-        mCitiesPresenter.deleteCity(position, city);
+    public void onDialogDeletePositiveClick(@NonNull City city) {
+        mCitiesPresenter.onDeleteClick(city);
     }
 
     @Override
@@ -197,8 +192,8 @@ public class CitiesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showDeleteCityDialog(@NonNull City city, int position) {
-        showDialog(DeleteCityDialog.newInstance(city, position));
+    public void showDeleteCityDialog(@NonNull City city) {
+        showDialog(DeleteCityDialog.newInstance(city));
     }
 
     @Override

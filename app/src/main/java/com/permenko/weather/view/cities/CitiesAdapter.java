@@ -1,6 +1,7 @@
 package com.permenko.weather.view.cities;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,22 +34,18 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
         CitiesViewHolder holder = (CitiesViewHolder) viewHolder;
         City city = getCity(holder.getAdapterPosition());
-        holder.bind(city, holder.getAdapterPosition(), mOnItemClickListener);
+        holder.bind(city, mOnItemClickListener);
     }
 
     public void setCities(@NonNull List<City> cities) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CitiesDiffCallback(mCities, cities));
         mCities.clear();
         mCities.addAll(cities);
-        notifyDataSetChanged();
+        diffResult.dispatchUpdatesTo(this);
     }
 
     private City getCity(int position) {
         return mCities.get(position);
-    }
-
-    public void deleteCity(int position) {
-        mCities.remove(position);
-        notifyItemRemoved(position);
     }
 
     public void addCity(@NonNull City city) {
@@ -65,8 +62,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         void onItemClick(@NonNull City city);
 
-        void onItemLongClick(@NonNull City city, int position);
+        void onItemLongClick(@NonNull City city);
 
     }
-
 }

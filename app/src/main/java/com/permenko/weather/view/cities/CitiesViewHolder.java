@@ -25,7 +25,7 @@ public class CitiesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(@NonNull City city, int position, @NonNull CitiesAdapter.OnItemClickListener onItemClickListener ) {
+    public void bind(@NonNull City city, @NonNull CitiesAdapter.OnItemClickListener onItemClickListener ) {
         mName.setText(city.getName());
 
         int temperature = Math.round(city.getMain().getTemp());
@@ -34,7 +34,7 @@ public class CitiesViewHolder extends RecyclerView.ViewHolder {
         mName.setOnClickListener(view -> onItemClickListener.onItemClick(city));
         mName.setOnLongClickListener(view -> {
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            onItemClickListener.onItemLongClick(city, position);
+            onItemClickListener.onItemLongClick(city);
             return true;
         });
     }

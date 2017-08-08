@@ -29,7 +29,6 @@ public class CompareCityDialog extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement ClickListener");
         }
-
     }
 
     public static CompareCityDialog newInstance(@NonNull City city) {
@@ -55,5 +54,4 @@ public class CompareCityDialog extends DialogFragment {
     public interface ClickListener {
         void onDialogComparePositiveClick(City city);
     }
-
 }

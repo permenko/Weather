@@ -72,7 +72,11 @@ public class CitiesPresenter {
         addSubscription(subscription);
     }
 
-    public void addCity(@NonNull City city) {
+    public void onAddClick(@NonNull City city) {
+        addCity(city);
+    }
+
+    private void addCity(@NonNull City city) {
         Subscription subscription = mWeatherRepository.addCity(city)
                 .subscribe(_city -> {
                     mCities.add(_city);
@@ -81,16 +85,24 @@ public class CitiesPresenter {
         addSubscription(subscription);
     }
 
-    public void deleteCity(int position, @NonNull City city) {
-        Subscription subscription = mWeatherRepository.deleteCity(position, city)
+    public void onDeleteClick(@NonNull City city) {
+        deleteCity(city);
+    }
+
+    private void deleteCity(@NonNull City city) {
+        Subscription subscription = mWeatherRepository.deleteCity(city)
                 .subscribe(
-                        aVoid -> {},
+                        cities -> {
+                            mCities.clear();
+                            mCities.addAll(cities);
+                            mCitiesView.setCitiesToAdapter(cities);
+                        },
                         throwable -> mCitiesView.showMessage(R.string.error_unknown),
-                        () -> mCitiesView.deleteCityFromAdapter(position));
+                        () -> {});
         addSubscription(subscription);
     }
 
-    public void onRefresh() {
+    public void onRefreshClick() {
         //getGroupWeather call showLoading, but we don't want to show
         getGroupWeather();
         mCitiesView.hideLoading();
@@ -104,8 +116,8 @@ public class CitiesPresenter {
         mCitiesView.openCityScreen(city);
     }
 
-    public void onItemLongClick(@NonNull City city, int position) {
-        mCitiesView.showDeleteCityDialog(city, position);
+    public void onItemLongClick(@NonNull City city) {
+        mCitiesView.showDeleteCityDialog(city);
     }
 
     private int getMessageId(@NonNull Throwable throwable) {
@@ -142,7 +154,6 @@ public class CitiesPresenter {
     }
 
     public void onSaveInstanceState(@Nullable Bundle outState) {
-
         if (outState == null) {
             return;
         }
@@ -150,6 +161,5 @@ public class CitiesPresenter {
         if (mCities != null) {
             outState.putSerializable(BUNDLE_CITIES, new ArrayList<>(mCities));
         }
-
     }
 }

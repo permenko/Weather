@@ -13,15 +13,13 @@ public interface CitiesView {
 
     void addCityToAdapter(@NonNull City city);
 
-    void deleteCityFromAdapter(int position); //delete city by position
-
     void setCitiesToAdapter(@NonNull List<City> cities);
 
     void showCompareCityDialog(@NonNull City city);
 
     void showAddCityDialog();
 
-    void showDeleteCityDialog(@NonNull City city, int position);
+    void showDeleteCityDialog(@NonNull City city);
 
     void showMessage(int messageId);
 

@@ -20,6 +20,6 @@ public interface IWeatherRepository {
     Observable<City> addCity(@NonNull City city);
 
     @NonNull
-    Observable<Void> deleteCity(int position, @NonNull City city);
+    Observable<List<City>> deleteCity(@NonNull City city);
 
 }

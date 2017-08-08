@@ -30,5 +30,4 @@ public class ErrorDialog extends DialogFragment {
                 .setPositiveButton(R.string.action_ok, null)
                 .create();
     }
-
 }

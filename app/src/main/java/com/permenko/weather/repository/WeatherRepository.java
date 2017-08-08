@@ -81,7 +81,7 @@ public class WeatherRepository implements IWeatherRepository {
 
     @NonNull
     @Override
-    public Observable<Void> deleteCity(int position, @NonNull City city) {
+    public Observable<List<City>> deleteCity(@NonNull City city) {
         return mDbHelper.deleteCity(city);
     }
 

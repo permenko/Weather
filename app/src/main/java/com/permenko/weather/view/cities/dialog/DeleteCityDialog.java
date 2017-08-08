@@ -13,7 +13,6 @@ import com.permenko.weather.model.City;
 
 public class DeleteCityDialog extends DialogFragment {
 
-    private static final String POSITION = "POSITION";
     private static final String CITY = "CITY";
 
     private ClickListener mClickListener;
@@ -29,14 +28,12 @@ public class DeleteCityDialog extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement ClickListener");
         }
-
     }
 
-    public static DeleteCityDialog newInstance(@NonNull City city, int position) {
+    public static DeleteCityDialog newInstance(@NonNull City city) {
         DeleteCityDialog dialog = new DeleteCityDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable(CITY, city);
-        bundle.putInt(POSITION, position);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -44,17 +41,15 @@ public class DeleteCityDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        final int position = getArguments().getInt(POSITION);
         final City city = (City) getArguments().getSerializable(CITY);
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.city_delete_title)
-                .setPositiveButton(R.string.action_delete, (dialog, i) -> mClickListener.onDialogDeletePositiveClick(position, city))
+                .setPositiveButton(R.string.action_delete, (dialog, i) -> mClickListener.onDialogDeletePositiveClick(city))
                 .setNegativeButton(R.string.action_cancel, (dialog, i) -> dialog.dismiss())
                 .create();
     }
 
     public interface ClickListener {
-        void onDialogDeletePositiveClick(int position, City city);
+        void onDialogDeletePositiveClick(City city);
     }
-
 }

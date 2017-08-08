@@ -31,7 +31,6 @@ public class AddCityDialog extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement ClickListener");
         }
-
     }
 
     @NonNull
