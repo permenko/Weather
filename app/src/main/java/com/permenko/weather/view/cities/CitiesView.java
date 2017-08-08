@@ -15,7 +15,7 @@ public interface CitiesView {
 
     void deleteCityFromAdapter(int position); //delete city by position
 
-    void addCitiesToAdapter(@NonNull List<City> cities);
+    void setCitiesToAdapter(@NonNull List<City> cities);
 
     void showCompareCityDialog(@NonNull City city);
 

@@ -39,7 +39,7 @@ public class CitiesPresenter {
         } else {
             mCities = ((ArrayList<City>) savedInstanceState.getSerializable(BUNDLE_CITIES));
             if (mCities != null) {
-                this.mCitiesView.addCitiesToAdapter(mCities);
+                this.mCitiesView.setCitiesToAdapter(mCities);
             }
         }
     }
@@ -53,7 +53,7 @@ public class CitiesPresenter {
                     mCitiesView.hideRefreshing();
                 })
                 .map(this::save)
-                .subscribe(cityList -> mCitiesView.addCitiesToAdapter(cityList));
+                .subscribe(cityList -> mCitiesView.setCitiesToAdapter(cityList));
         addSubscription(subscription);
     }
 

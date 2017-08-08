@@ -118,8 +118,8 @@ public class CitiesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void addCitiesToAdapter(@NonNull List<City> cities) {
-        mCitiesAdapter.addCities(cities);
+    public void setCitiesToAdapter(@NonNull List<City> cities) {
+        mCitiesAdapter.setCities(cities);
     }
 
     @Override

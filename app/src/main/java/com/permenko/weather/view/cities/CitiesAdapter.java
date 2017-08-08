@@ -36,7 +36,8 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.bind(city, holder.getAdapterPosition(), mOnItemClickListener);
     }
 
-    public void addCities(@NonNull List<City> cities) {
+    public void setCities(@NonNull List<City> cities) {
+        mCities.clear();
         mCities.addAll(cities);
         notifyDataSetChanged();
     }
