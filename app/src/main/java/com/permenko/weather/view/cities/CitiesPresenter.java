@@ -73,7 +73,10 @@ public class CitiesPresenter {
 
     public void addCity(@NonNull City city) {
         Subscription subscription = mWeatherRepository.addCity(city)
-                .subscribe(_city -> mCitiesView.addCityToAdapter(_city), throwable -> mCitiesView.showMessage(R.string.error_already_added));
+                .subscribe(_city -> {
+                    mCities.add(_city);
+                    mCitiesView.addCityToAdapter(_city);
+                }, throwable -> mCitiesView.showMessage(R.string.error_already_added));
         addSubscription(subscription);
     }
 
