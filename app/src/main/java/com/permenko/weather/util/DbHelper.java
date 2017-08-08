@@ -6,7 +6,6 @@ import com.permenko.weather.App;
 import com.permenko.weather.model.City;
 import com.permenko.weather.model.realm.RealmCity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -46,7 +45,7 @@ public class DbHelper {
     }
 
     @NonNull
-    public Observable<ArrayList<City>> cache(@NonNull ArrayList<City> cities) {
+    public Observable<List<City>> cache(@NonNull List<City> cities) {
         mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(mMapper.getRealmCities(cities)));
         return Observable.just(cities);
     }
@@ -58,7 +57,7 @@ public class DbHelper {
     }
 
     @NonNull
-    public Observable<ArrayList<City>> getCached() {
+    public Observable<List<City>> getCached() {
         RealmList<RealmCity> realmCities = new RealmList<>();
         //try to get cached data
         realmCities.addAll(mRealm.where(RealmCity.class).findAll());

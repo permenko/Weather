@@ -10,18 +10,19 @@ import com.permenko.weather.model.realm.RealmWeather;
 import com.permenko.weather.model.realm.RealmWind;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.RealmList;
 
-//todo: find a better way to map RealmList to ArrayList and back
+//todo: find a better way to map RealmList to List and back
 public class Mapper {
 
-    public ArrayList<City> getCities(RealmList<RealmCity> realmCities) {
+    public List<City> getCities(RealmList<RealmCity> realmCities) {
         if (realmCities == null) {
             return new ArrayList<>();
         }
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
         //copy realmCities to cities
         for (int i = 0; i < realmCities.size(); ++i) {
             cities.add(i, getCity(realmCities.get(i)));
@@ -44,7 +45,7 @@ public class Mapper {
         return city;
     }
 
-    public RealmList<RealmCity> getRealmCities(ArrayList<City> cities) {
+    public RealmList<RealmCity> getRealmCities(List<City> cities) {
         if (cities == null) {
             return new RealmList<>();
         }
@@ -108,8 +109,8 @@ public class Mapper {
         return realmWind;
     }
 
-    private ArrayList<Weather> getWeather(RealmList<RealmWeather> weatherRealmList) {
-        ArrayList<Weather> weatherList = new ArrayList<>();
+    private List<Weather> getWeather(RealmList<RealmWeather> weatherRealmList) {
+        List<Weather> weatherList = new ArrayList<>();
 
         for (int i = 0; i < weatherRealmList.size(); ++i) {
             Weather weather = new Weather();
@@ -122,7 +123,7 @@ public class Mapper {
         return weatherList;
     }
 
-    private RealmList<RealmWeather> getRealmWeather(ArrayList<Weather> weatherList) {
+    private RealmList<RealmWeather> getRealmWeather(List<Weather> weatherList) {
         RealmList<RealmWeather> weatherRealmList = new RealmList<>();
         for (int i = 0; i < weatherList.size(); ++i) {
             RealmWeather realmWeather = new RealmWeather();

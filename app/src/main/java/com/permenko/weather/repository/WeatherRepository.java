@@ -8,7 +8,7 @@ import com.permenko.weather.api.WeatherService;
 import com.permenko.weather.model.City;
 import com.permenko.weather.util.DbHelper;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,18 +45,18 @@ public class WeatherRepository implements IWeatherRepository {
     }
 
     @NonNull
-    private Observable<ArrayList<City>> cache(@NonNull ArrayList<City> cities) {
+    private Observable<List<City>> cache(@NonNull List<City> cities) {
         return mDbHelper.cache(cities);
     }
 
     @NonNull
-    private Observable<ArrayList<City>> getCached() {
+    private Observable<List<City>> getCached() {
         return mDbHelper.getCached();
     }
 
     @NonNull
     @Override
-    public Observable<ArrayList<City>> getGroupWeather() {
+    public Observable<List<City>> getGroupWeather() {
         return mWeatherService.getGroupWeather(getIds())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

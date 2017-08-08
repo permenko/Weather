@@ -11,6 +11,7 @@ import com.permenko.weather.repository.WeatherRepository;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import rx.Subscription;
@@ -25,7 +26,7 @@ public class CitiesPresenter {
     private WeatherRepository mWeatherRepository;
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
-    private ArrayList<City> mCities;
+    private List<City> mCities;
 
     public CitiesPresenter(@NonNull CitiesView view, @NonNull WeatherRepository repository) {
         this.mCitiesView = view;
@@ -37,7 +38,7 @@ public class CitiesPresenter {
         if (savedInstanceState == null) {
             getGroupWeather();
         } else {
-            mCities = ((ArrayList<City>) savedInstanceState.getSerializable(BUNDLE_CITIES));
+            mCities = ((List<City>) savedInstanceState.getSerializable(BUNDLE_CITIES));
             if (mCities != null) {
                 this.mCitiesView.setCitiesToAdapter(mCities);
             }
@@ -126,7 +127,7 @@ public class CitiesPresenter {
     }
 
     @NonNull
-    private ArrayList<City> save(@NonNull ArrayList<City> cities) {
+    private List<City> save(@NonNull List<City> cities) {
         mCities = cities;
         return cities;
     }
@@ -147,7 +148,7 @@ public class CitiesPresenter {
         }
 
         if (mCities != null) {
-            outState.putSerializable(BUNDLE_CITIES, mCities);
+            outState.putSerializable(BUNDLE_CITIES, new ArrayList<>(mCities));
         }
 
     }

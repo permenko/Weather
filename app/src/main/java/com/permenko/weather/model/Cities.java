@@ -3,13 +3,13 @@ package com.permenko.weather.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Cities implements Serializable {
     @SerializedName("cnt")
     private int count;
     @SerializedName("list")
-    private ArrayList<City> cities;
+    private List<City> cities;
 
     public int getCount() {
         return count;
@@ -20,11 +20,11 @@ public class Cities implements Serializable {
         return this;
     }
 
-    public ArrayList<City> getCities() {
+    public List<City> getCities() {
         return cities;
     }
 
-    public Cities setCities(ArrayList<City> cities) {
+    public Cities setCities(List<City> cities) {
         this.cities = cities;
         return this;
     }

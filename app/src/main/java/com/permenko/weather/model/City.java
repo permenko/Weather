@@ -3,11 +3,11 @@ package com.permenko.weather.model;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class City implements Serializable {
     //private String updateTime;
-    private ArrayList<Weather> weather;
+    private List<Weather> weather;
     private Main main;
     private Wind wind;
     private Integer id;
@@ -27,11 +27,11 @@ public class City implements Serializable {
     }*/
 
     @Nullable
-    public ArrayList<Weather> getWeather() {
+    public List<Weather> getWeather() {
         return weather;
     }
 
-    public void setWeather(ArrayList<Weather> weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
 
