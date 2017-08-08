@@ -87,6 +87,10 @@ public class WeatherRepository implements IWeatherRepository {
 
     @NonNull
     private String getIds() {
-        return mDbHelper.getIds().map(list -> list.toString().replaceAll("[\\[\\]]", "")).toBlocking().first();
+        return mDbHelper.getIds()
+                .map(list -> list.toString()
+                        .replaceAll("[\\[\\]]", "")
+                        .replaceAll(" ", ""))
+                .toBlocking().first();
     }
 }
